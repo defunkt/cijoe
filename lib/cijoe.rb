@@ -66,10 +66,9 @@ class CIJoe
   # run the build but make sure only
   # one is running at a time
   def build
-    return @current_build if building?
+    return if building?
     @current_build = Build.new(Time.now)
     Thread.new { build! }
-    @current_build
   end
 
   # update git then run the build

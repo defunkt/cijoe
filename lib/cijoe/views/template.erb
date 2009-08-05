@@ -212,10 +212,10 @@ ul.posts {
         <h1><a href="<%= joe.url %>"><%= joe.project %></a></h1>
         <ul class="posts">
           <li>
-          <span><%= joe.build.started_at %></span> &raquo;
-          <% if joe.build.sha %>
-            Building <a href="<%= joe.url %>/commits/<%= joe.build.sha %>"><%= joe.build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small></li>            
-          <% elsif joe.build %>
+          <span><%= joe.current_build.started_at if joe.current_build %></span> &raquo;
+          <% if joe.current_build && joe.current_build.sha %>
+            Building <a href="<%= joe.url %>/commits/<%= joe.current_build.sha %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small></li>
+          <% elsif joe.current_build %>
             Build started
           <% else %>
             Start build
