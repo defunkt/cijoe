@@ -137,7 +137,6 @@ class CIJoe
   end
 
   def git_update
-    return true
     Dir.chdir project do
       `git fetch origin && git reset --hard origin/master`
     end
