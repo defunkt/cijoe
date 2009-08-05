@@ -106,23 +106,27 @@ class CIJoe
 
   # update git then run the build
   def build!
-    out, err = '', ''
-    git_update
-    @current_build.sha = git_sha
+    begin
+      out, err = '', ''
+      git_update
+      @current_build.sha = git_sha
 
-    # don't rebuild the same sha
-    if last_build && @current_build.sha == last_build.sha
-      @current_build = nil
-      return
-    end
-
-    Dir.chdir(project) do
-      status = Open4.popen4(rake_command) do |@pid, stdin, stdout, stderr|
-        err, out = stderr.read.strip, stdout.read.strip
+      # don't rebuild the same sha
+      if last_build && @current_build.sha == last_build.sha
+        @current_build = nil
+        return
       end
-    end
 
-    status.exitstatus.to_i == 0 ? build_worked(out) : build_failed(out, err)
+      Dir.chdir(project) do
+        status = Open4.popen4(rake_command) do |@pid, stdin, stdout, stderr|
+          err, out = stderr.read.strip, stdout.read.strip
+        end
+      end
+
+      status.exitstatus.to_i == 0 ? build_worked(out) : build_failed(out, err)
+    rescue Object => e
+      build_failed('', e.to_s)
+    end
   end
 
   # shellin' out
