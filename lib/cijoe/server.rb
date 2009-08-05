@@ -7,6 +7,7 @@ class CIJoe
 
     set :views,  "#{dir}/views"
     set :public, "#{dir}/public"
+    set :static, true
 
     helpers do
       include Rack::Utils
@@ -31,14 +32,21 @@ class CIJoe
     end
 
     def joe
-      @joe ||= CIJoe.new(@user, @project)
+      self.class.joe
+    end
+
+    def self.joe
+      @joe
+    end
+
+    def self.joe=(joe)
+      @joe = joe
     end
 
     attr_accessor :user, :project
     def self.start(user, project)
       CIJoe::Server.run! \
-        :user    => user,
-        :project => project
+        :joe => CIJoe.new(user, project)
     end
 
     def self.parse_args(args = ARGV)
