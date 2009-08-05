@@ -26,27 +26,14 @@ class CIJoe
       end
     end
 
-    get '/' do
-      joe.build
-      erb(:template, {}, :joe => joe)
-    end
-
-    def joe
-      self.class.joe
-    end
-
-    def self.joe
-      @joe
-    end
-
-    def self.joe=(joe)
-      @joe = joe
-    end
-
-    attr_accessor :user, :project
     def self.start(user, project)
-      CIJoe::Server.run! \
-        :joe => CIJoe.new(user, project)
+      joe = CIJoe.new(user, project)
+      get '/' do
+        joe.build
+        erb(:template, {}, :joe => joe)
+      end
+
+      CIJoe::Server.run!
     end
 
     def self.parse_args(args = ARGV)
