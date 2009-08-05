@@ -144,5 +144,19 @@ class CIJoe
 end
 
 if $0 == __FILE__
-  CIJoe.start
+  name_with_owner = ARGV[0]
+
+  if name_with_owner.nil? || !name_with_owner.include?('/')
+    puts "Whoops! I need a project name (e.g. mojombo/grit)"
+    abort "  $ ruby cijoe.rb project_name"
+  else
+    user, project = name_with_owner.split('/')
+  end
+
+  if !File.exists?(project)
+    puts "Whoops! You need to do this first:"
+    abort "  $ git clone git@github.com:#{name_with_owner}.git #{project}"
+  end
+
+  CIJoe.start(user, project)
 end
