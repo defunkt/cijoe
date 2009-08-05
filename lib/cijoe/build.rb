@@ -1,5 +1,5 @@
 class CIJoe
-  class Build < Struct.new(:started_at, :sha, :finished_at, :status, :output)
+  class Build < Struct.new(:started_at, :finished_at, :sha, :status, :output)
     def status
       return super if started_at && finished_at
       :building
