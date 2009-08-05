@@ -60,6 +60,7 @@ class CIJoe
     @current_build.output = output
     @last_build = @current_build
     @current_build = nil
+    @last_build.notify if @last_build.respond_to? :notify
   end
 
   # run the build but make sure only
