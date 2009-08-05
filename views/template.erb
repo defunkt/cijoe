@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+/*****************************************************************************/
+/*
+/* Common
+/*
+/*****************************************************************************/
+
+/* Global Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: white;
+  font: 13.34px helvetica, arial, clean, sans-serif;
+  *font-size: small;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+}
+
+h1 {
+  margin-bottom: 1em;
+}
+
+p {
+  margin: 1em 0;
+}
+
+a {
+  color: #00a;
+}
+
+a:hover {
+  color: black;
+}
+
+a:visited {
+  color: #a0a;
+}
+
+table {
+  font-size: inherit;
+  font: 100%;
+}
+
+/*****************************************************************************/
+/*
+/* Home
+/*
+/*****************************************************************************/
+
+ul.posts {
+  list-style-type: none;
+  margin-bottom: 2em;
+}
+
+  ul.posts li {
+    line-height: 1.75em;
+  }
+
+  ul.posts span {
+    color: #aaa;
+    font-family: Monaco, "Courier New", monospace;
+    font-size: 80%;
+  }
+
+/*****************************************************************************/
+/*
+/* Site
+/*
+/*****************************************************************************/
+
+.site {
+  font-size: 110%;
+  text-align: justify;
+  width: 40em;
+  margin: 3em auto 2em auto;
+  line-height: 1.5em;
+}
+
+.title {
+  color: #a00;
+  font-weight: bold;
+  margin-bottom: 2em;
+}
+
+  .site .title a {
+    color: #a00;
+    text-decoration: none;
+  }
+
+  .site .title a:hover {
+    color: black;
+  }
+
+  .site .title .extra {
+    color: #aaa;
+    text-decoration: none;
+    margin-left: 1em;
+    font-size: 0.9em;
+  }
+
+  .site .title a.extra:hover {
+    color: black;
+  }
+
+  .site .meta {
+    color: #aaa;
+  }
+
+  .site .footer {
+    font-size: 80%;
+    color: #666;
+    border-top: 4px solid #eee;
+    margin-top: 2em;
+    overflow: hidden;
+  }
+
+    .site .footer .contact {
+      float: left;
+      margin-right: 3em;
+    }
+
+      .site .footer .contact a {
+        color: #8085C1;
+      }
+
+    .site .footer .rss {
+      margin-top: 1.1em;
+      margin-right: -.2em;
+      float: right;
+    }
+
+      .site .footer .rss img {
+        border: 0;
+      }
+
+/*****************************************************************************/
+/*
+/* Posts
+/*
+/*****************************************************************************/
+
+#post {
+
+}
+
+  /* standard */
+
+  #post pre {
+    border: 1px solid #ddd;
+    background-color: #eef;
+    padding: 0 .4em;
+  }
+
+  #post ul,
+  #post ol {
+    margin-left: 1.25em;
+  }
+
+  #post code {
+    border: 1px solid #ddd;
+    background-color: #eef;
+    font-size: 95%;
+    padding: 0 .2em;
+  }
+
+    #post pre code {
+      border: none;
+    }
+
+  /* terminal */
+
+  pre.terminal {
+    border: 1px solid black;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    overflow: auto;
+  }
+
+  pre.terminal code {
+    background-color: #333;
+  }
+    </style>
+  </head>
+  <body>
+    <div class="site">
+      <div class="title">
+        <a href="/">CI Joe</a>
+        <span class="extra">because knowing is half the battle</span>
+      </div>
+      
+
+      <div id="home">
+        <h1><a href="<%= joe.url %>"><%= joe.project %></a></h1>
+        <ul class="posts">
+          <li>
+          <span><%= joe.build.started_at %></span> &raquo;
+          <% if joe.build.sha %>
+            Building <a href="<%= joe.url %>/commits/<%= joe.build.sha %>"><%= joe.build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small></li>            
+          <% elsif joe.build %>
+            Build started
+          <% else %>
+            Start build
+          <% end %>
+          <% if joe.last_build %>
+            <li><span><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> (<%= joe.last_build.status %>)</li>
+            <li><pre class="terminal"><code><%= joe.last_build.output %></code></pre></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="footer">
+        <div class="contact">
+          <p>
+            <a href="http://github.com/defunkt/cijoe/tree/master#readme">Documentation</a><br/>
+            <a href="http://github.com/defunkt/cijoe">Source</a><br/>
+            <a href="http://github.com/defunkt/cijoe/issues">Issues</a><br/>
+            <a href="http://twitter.com/defunkt">Twitter</a>
+          </p>
+        </div>
+        <div class="contact">
+          <p>
+            Designed by <a href="http://tom.preston-werner.com/">Tom Preston-Werner</a><br/>
+            Influenced by <a href="http://integrityapp.com/">Integrity</a><br/>
+            Built with <a href="http://sinatrarb.com/">Sinatra</a><br/>
+            Keep it simple, Sam.
+          </p>
+        </div>        
+        <div class="rss">
+          <a href="http://github.com/defunkt/cijoe">
+            <img src="/octocat.png" alt="Octocat!" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
