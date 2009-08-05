@@ -27,6 +27,7 @@ class CIJoe
     @last_build = nil
     @current_build = nil
     trap("INT") { stop }
+    Dir.chdir("#{Dir.pwd}/#{project}")
   end
 
   # is a build running?
@@ -73,8 +74,6 @@ class CIJoe
 
   # update git then run the build
   def build!
-    Dir.chdir(Dir.pwd + '/' + project)
-
     out, err, status = '', '', nil
     git_update
     @current_build.sha = git_sha
