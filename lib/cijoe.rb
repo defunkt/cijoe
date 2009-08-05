@@ -13,46 +13,48 @@
 #
 # Seriously, I'm gonna be nuts about keeping this simple.
 
-require 'sinatra'
 require 'open4'
-require 'erb'
+require 'cijoe/server'
+require 'cijoe/build'
+require 'cijoe/campfire'
 
 class CIJoe
-  class Build < Struct.new(:started_at, :sha, :finished_at, :status, :output)
-    def status
-      return super if started_at && finished_at
-      :building
-    end
-
-    def started_at
-      super.strftime(date_format) if super
-    end
-
-    def finished_at
-      super.strftime(date_format) if super
-    end
-
-    def short_sha
-      sha[0,7] if sha
-    end
-
-    def date_format
-      "%Y-%m-%d %H:%M"
-    end
-  end
-
   # begin the adventure
   def self.start(user, project)
-    joe = new(user, project)
     dir = File.dirname(File.expand_path(__FILE__))
 
     set :views,  "#{dir}/views"
     set :public, "#{dir}/public"
 
+    helpers do
+      include Rack::Utils
+      alias_method :h, :escape_html
+    end
+
+    joe = new(user, project)
+
     get '/' do
       joe.build
       erb(:template, {}, :joe => joe)
     end
+  end
+
+  def self.parse_args(args = ARGV)
+    name_with_owner = args[0]
+
+    if name_with_owner.nil? || !name_with_owner.include?('/')
+      puts "Whoops! I need a project name (e.g. mojombo/grit)"
+      abort "  $ cijoe project_name"
+    else
+      user, project = name_with_owner.split('/')
+    end
+
+    if !File.exists?(project)
+      puts "Whoops! You need to do this first:"
+      abort "  $ git clone git@github.com:#{name_with_owner}.git #{project}"
+    end
+
+    [ user, project ]
   end
 
   attr_reader :user, :project, :url, :current_build, :last_build
@@ -62,6 +64,7 @@ class CIJoe
     @url = "http://github.com/#{user}/#{project}"
     @last_build = nil
     @current_build = nil
+    trap("INT") { stop }
   end
 
   # is a build running?
@@ -106,7 +109,9 @@ class CIJoe
 
   # update git then run the build
   def build!
-    out, err = '', ''
+    Dir.chdir(project)
+
+    out, err, status = '', '', nil
     git_update
     @current_build.sha = git_sha
 
@@ -116,10 +121,8 @@ class CIJoe
       return
     end
 
-    Dir.chdir(project) do
-      status = Open4.popen4(rake_command) do |@pid, stdin, stdout, stderr|
-        err, out = stderr.read.strip, stdout.read.strip
-      end
+    status = Open4.popen4(rake_command) do |@pid, stdin, stdout, stderr|
+      err, out = stderr.read.strip, stdout.read.strip
     end
 
     status.exitstatus.to_i == 0 ? build_worked(out) : build_failed(out, err)
@@ -133,32 +136,10 @@ class CIJoe
   end
 
   def git_sha
-    Dir.chdir project do
-      `git rev-parse origin/master`.chomp
-    end
+    `git rev-parse origin/master`.chomp
   end
 
   def git_update
-    Dir.chdir project do
-      `git fetch origin && git reset --hard origin/master`
-    end
+    `git fetch origin && git reset --hard origin/master`
   end
-end
-
-if $0 == __FILE__
-  name_with_owner = ARGV[0]
-
-  if name_with_owner.nil? || !name_with_owner.include?('/')
-    puts "Whoops! I need a project name (e.g. mojombo/grit)"
-    abort "  $ ruby cijoe.rb project_name"
-  else
-    user, project = name_with_owner.split('/')
-  end
-
-  if !File.exists?(project)
-    puts "Whoops! You need to do this first:"
-    abort "  $ git clone git@github.com:#{name_with_owner}.git #{project}"
-  end
-
-  CIJoe.start(user, project)
 end

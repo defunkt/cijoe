@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+require 'cijoe'
+user, project = CIJoe.parse_args(ARGV)
+CIJoe.start(user, project)

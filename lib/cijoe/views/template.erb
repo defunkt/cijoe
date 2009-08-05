@@ -218,7 +218,7 @@ ul.posts {
           <% end %>
           <% if joe.last_build %>
             <li><span><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> (<%= joe.last_build.status %>)</li>
-            <li><pre class="terminal"><code><%= joe.last_build.output %></code></pre></li>
+            <li><pre class="terminal"><code><%=h joe.last_build.output %></code></pre></li>
           <% end %>
         </ul>
       </div>
