@@ -35,6 +35,6 @@ EOM
   end
 end
 
-CIJoe::Build.class_eval do
-  include CIJoe::Campfire
-end
+# CIJoe::Build.class_eval do
+#   include CIJoe::Campfire
+# end
