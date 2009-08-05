@@ -14,49 +14,11 @@
 # Seriously, I'm gonna be nuts about keeping this simple.
 
 require 'open4'
-require 'cijoe/server'
 require 'cijoe/build'
 require 'cijoe/campfire'
+require 'cijoe/server'
 
 class CIJoe
-  # begin the adventure
-  def self.start(user, project)
-    dir = File.dirname(File.expand_path(__FILE__))
-
-    set :views,  "#{dir}/views"
-    set :public, "#{dir}/public"
-
-    helpers do
-      include Rack::Utils
-      alias_method :h, :escape_html
-    end
-
-    joe = new(user, project)
-
-    get '/' do
-      joe.build
-      erb(:template, {}, :joe => joe)
-    end
-  end
-
-  def self.parse_args(args = ARGV)
-    name_with_owner = args[0]
-
-    if name_with_owner.nil? || !name_with_owner.include?('/')
-      puts "Whoops! I need a project name (e.g. mojombo/grit)"
-      abort "  $ cijoe project_name"
-    else
-      user, project = name_with_owner.split('/')
-    end
-
-    if !File.exists?(project)
-      puts "Whoops! You need to do this first:"
-      abort "  $ git clone git@github.com:#{name_with_owner}.git #{project}"
-    end
-
-    [ user, project ]
-  end
-
   attr_reader :user, :project, :url, :current_build, :last_build
   def initialize(user, project)
     @user = user
@@ -109,7 +71,7 @@ class CIJoe
 
   # update git then run the build
   def build!
-    Dir.chdir(project)
+    Dir.chdir(Dir.pwd + '/' + project)
 
     out, err, status = '', '', nil
     git_update

@@ -2,5 +2,5 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'cijoe'
-user, project = CIJoe.parse_args(ARGV)
-CIJoe.start(user, project)
+user, project = CIJoe::Server.parse_args(ARGV)
+CIJoe::Server.start(user, project)
