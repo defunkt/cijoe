@@ -68,6 +68,7 @@ class CIJoe
     return @current_build if building?
     @current_build = Build.new(Time.now)
     Thread.new { build! }
+    @current_build
   end
 
   # update git then run the build
