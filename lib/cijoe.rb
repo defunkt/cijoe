@@ -79,12 +79,6 @@ class CIJoe
     git_update
     @current_build.sha = git_sha
 
-    # don't rebuild the same sha
-    if last_build && @current_build.sha == last_build.sha
-      @current_build = nil
-      return
-    end
-
     status = Open4.popen4(rake_command) do |@pid, stdin, stdout, stderr|
       err, out = stderr.read.strip, stdout.read.strip
     end
