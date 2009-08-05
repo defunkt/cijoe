@@ -42,8 +42,8 @@ class CIJoe
   end
 
   # begin the adventure
-  def self.start
-    joe = new
+  def self.start(user, project)
+    joe = new(user, project)
     dir = File.dirname(File.expand_path(__FILE__))
 
     set :views,  "#{dir}/views"
@@ -55,10 +55,11 @@ class CIJoe
     end
   end
 
-  attr_reader :project, :url, :current_build, :last_build
-  def initialize
-    @project = "github"
-    @url = "http://github.com/defunkt/github"
+  attr_reader :user, :project, :url, :current_build, :last_build
+  def initialize(user, project)
+    @user = user
+    @project = project
+    @url = "http://github.com/#{user}/#{project}"
     @last_build = nil
     @current_build = nil
   end
