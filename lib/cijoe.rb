@@ -39,9 +39,10 @@ class CIJoe
     building? and @pid
   end
 
-  # kill the child on exit
+  # kill the child and exit
   def stop
     Process.kill(9, pid) if pid
+    raise Interrupt
   end
 
   # build callbacks
