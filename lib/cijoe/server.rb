@@ -29,8 +29,12 @@ class CIJoe
     def self.start(user, project)
       joe = CIJoe.new(user, project)
       get '/' do
-        joe.build
         erb(:template, {}, :joe => joe)
+      end
+
+      post '/' do
+        joe.build
+        redirect '/'
       end
 
       CIJoe::Server.run!

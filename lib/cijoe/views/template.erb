@@ -229,9 +229,10 @@ ul.posts {
             Start build
           <% end %>
           <% if joe.last_build %>
-            <li><span><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= job.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
+            <li><span><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
             <li><pre class="terminal"><code><%=bash_color_codes h(joe.last_build.output) %></code></pre></li>
           <% end %>
+          <li><form method="POST"><input type="submit" value="Rebuild"/></form></li>
         </ul>
       </div>
 
