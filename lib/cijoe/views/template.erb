@@ -39,12 +39,16 @@ h1 a {
   color: #000;
 }
 
-.failed {
-  color: red;
+.failed, .color31 {
+  color: red !important;
 }
 
-.worked {
-  color: green;
+.worked, .color32 {
+  color: green !important;
+}
+
+.errored, .color33 {
+  color: yellow !important;
 }
 
 p {
@@ -197,6 +201,7 @@ ul.posts {
   /* terminal */
 
   pre.terminal {
+    font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace;
     border: 1px solid black;
     background-color: #333;
     color: white;
@@ -219,20 +224,21 @@ ul.posts {
       <div id="home">
         <h1><a href="<%= joe.url %>"><%= joe.project %></a></h1>
         <ul class="posts">
-          <li>
-          <span><%= joe.current_build.started_at if joe.current_build %></span> &raquo;
-          <% if joe.current_build && joe.current_build.sha %>
-            Building <a href="<%= joe.url %>/commits/<%= joe.current_build.sha %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small></li>
-          <% elsif joe.current_build %>
-            Build started
-          <% else %>
-            Start build
+          <% if joe.current_build %>
+            <li>
+              <span><%= joe.current_build.started_at if joe.current_build %></span> &raquo;
+              <% if joe.current_build.sha %>
+                Building <a href="<%= joe.url %>/commits/<%= joe.current_build.sha %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small>
+              <% else %>
+                Build starting...
+              <% end %>
+            </li>
           <% end %>
           <% if joe.last_build %>
             <li><span><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
             <li><pre class="terminal"><code><%=bash_color_codes h(joe.last_build.output) %></code></pre></li>
           <% end %>
-          <li><form method="POST"><input type="submit" value="Rebuild"/></form></li>
+          <li><form method="POST"><input type="submit" value="Build"/></form></li>
         </ul>
       </div>
 
