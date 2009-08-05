@@ -86,8 +86,8 @@ ul.posts {
   ul.posts li {
     line-height: 1.75em;
   }
-
-  ul.posts span {
+ 
+  ul.posts .date {
     color: #aaa;
     font-family: Monaco, "Courier New", monospace;
     font-size: 80%;
@@ -201,7 +201,6 @@ ul.posts {
   /* terminal */
 
   pre.terminal {
-    font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace;
     border: 1px solid black;
     background-color: #333;
     color: white;
@@ -210,6 +209,7 @@ ul.posts {
   }
 
   pre.terminal code {
+    font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace;
     background-color: #333;
   }
     </style>
@@ -226,19 +226,21 @@ ul.posts {
         <ul class="posts">
           <% if joe.current_build %>
             <li>
-              <span><%= joe.current_build.started_at if joe.current_build %></span> &raquo;
+              <span class="date"><%= joe.current_build.started_at if joe.current_build %></span> &raquo;
               <% if joe.current_build.sha %>
                 Building <a href="<%= joe.url %>/commits/<%= joe.current_build.sha %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small>
               <% else %>
                 Build starting...
               <% end %>
             </li>
+          <% else %>
+            <li><form method="POST"><input type="submit" value="Build"/></form></li>
           <% end %>
+          
           <% if joe.last_build %>
-            <li><span><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
+            <li><span class="date"><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
             <li><pre class="terminal"><code><%=bash_color_codes h(joe.last_build.output) %></code></pre></li>
           <% end %>
-          <li><form method="POST"><input type="submit" value="Build"/></form></li>
         </ul>
       </div>
 
