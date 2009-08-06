@@ -37,16 +37,29 @@ Or do it the old fashion way:
     $ cd yourrepo
     $ git config --add campfire.user chris@ozmm.org
     $ git config --add campfire.domain github
-
-etc.
+    etc.
 
 
 Multiple Projects
 -----------------
 
-Want Joe to work for multiple projects? Just start multiple instances
-of Joe! He can run on any port - try `cijoe -h` for more options.
+Want CI for multiple projects? Just start multiple instances of Joe! 
+He can run on any port - try `cijoe -h` for more options.
 
+
+GitHub Integration
+------------------
+
+Any POST to Joe will trigger a build. 
+
+
+HTTP Auth
+---------
+
+Worried about people triggering your builds? Setup HTTP auth:
+
+    $ git config --add cijoe.user chris
+    $ git config --add cijoe.pass secret
 
 
 Other CI Servers

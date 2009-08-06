@@ -39,6 +39,8 @@ class CIJoe
         redirect '/'
       end
 
+      setup_auth
+
       CIJoe::Campfire.activate
       CIJoe::Server.run! :host => host, :port => port
     end
@@ -48,6 +50,17 @@ class CIJoe
         puts "Whoops! I need the path to a Git repo."
         puts "  $ git clone git@github.com:username/project.git project"
         abort "  $ cijoe project"
+      end
+    end
+
+    def self.setup_auth
+      user, pass = Config.cijoe.user.to_s, Config.cijoe.pass.to_s
+
+      if user != '' && pass != ''
+        use Rack::Auth::Basic do |username, password|
+          [ username, password ] == [ user, pass ]
+        end
+        puts "Using HTTP basic auth"
       end
     end
   end
