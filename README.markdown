@@ -40,7 +40,7 @@ and are executable on build pass / fail. They're just shell scripts -
 put whatever you want in there.
 
 Tip: your repo's `HEAD` will point to the commit used to run the
-build. Pull any metadata you want out of that bad boy.
+build. Pull any metadata you want out of that scro.
 
 
 Campfire
