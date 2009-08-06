@@ -49,7 +49,7 @@ Commit Message: #{commit.message}
 Commit Date: #{commit.committed_at}
 Commit Author: #{commit.author}
 
-#{output}
+#{clean_output}
 EOM
     end
   end

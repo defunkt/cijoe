@@ -34,6 +34,17 @@ class CIJoe
       "%Y-%m-%d %H:%M"
     end
 
+    def clean_output
+      string.gsub("\e[0m", '').
+        gsub("\e[31m", '').
+        gsub("\e[32m", '').
+        gsub("\e[33m", '').
+        gsub("\e[34m", '').
+        gsub("\e[35m", '').
+        gsub("\e[36m", '').
+        gsub("\e[37m", '')
+    end
+
     def commit
       @commit ||= Commit.new(sha, user, project)
     end
