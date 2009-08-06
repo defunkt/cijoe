@@ -23,14 +23,7 @@ class CIJoe
     end
 
     def clean_output
-      output.gsub("\e[0m", '').
-        gsub("\e[31m", '').
-        gsub("\e[32m", '').
-        gsub("\e[33m", '').
-        gsub("\e[34m", '').
-        gsub("\e[35m", '').
-        gsub("\e[36m", '').
-        gsub("\e[37m", '')
+      output.gsub(/\e[.+?m/, '').strip
     end
 
     def commit
