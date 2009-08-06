@@ -71,7 +71,7 @@ class CIJoe
   # one is running at a time
   def build
     return if building?
-    @current_build = Build.new(Time.now)
+    @current_build = Build.new(@user, @project)
     Thread.new { build! }
   end
 

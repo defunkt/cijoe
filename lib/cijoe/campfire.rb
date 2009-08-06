@@ -8,6 +8,7 @@ class CIJoe
         CIJoe::Build.class_eval do
           include CIJoe::Campfire
         end
+
         puts "Loaded Campfire notifier"
       else
         puts "Can't load Campfire notifier."
@@ -16,8 +17,12 @@ class CIJoe
       end
     end
 
+    def self.config
+      @campfire_config
+    end
+
     def notify
-      room.speak "#{short_message}. #{commit_url}"
+      room.speak "#{short_message}. #{commit.url}"
       room.paste full_message if failed?
       room.leave
     end
@@ -25,7 +30,7 @@ class CIJoe
   private
     def room
       @room ||= begin
-        config = @campfire_config
+        config = Campfire.config
         options = {}
         options[:ssl] = config["use_ssl"] ? true : false
         campfire = Tinder::Campfire.new(config["subdomain"], options)
@@ -35,16 +40,16 @@ class CIJoe
     end
 
     def short_message
-      "Build #{commit.short_identifier} of #{commit.project.name} #{commit.successful? ? "was successful" : "failed"}"
+      "Build #{short_sha} of #{project} #{worked? ? "was successful" : "failed"}"
     end
 
     def full_message
       <<-EOM
 Commit Message: #{commit.message}
 Commit Date: #{commit.committed_at}
-Commit Author: #{commit.author.name}
+Commit Author: #{commit.author}
 
-#{stripped_commit_output}
+#{output}
 EOM
     end
   end
