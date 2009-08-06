@@ -1,6 +1,10 @@
 CI Joe
 ======
 
+Joe is a "Continuous
+Integration":http://en.wikipedia.org/wiki/Continuous_integration
+server that'll run your tests on demand and report on their pass/fail status.
+
 Because knowing is half the battle.
 
 ![The Battle](http://img.skitch.com/20090805-g4a2qhttwij8n2jr9t552efn3k.png)
