@@ -44,10 +44,10 @@ class CIJoe
       @room ||= begin
         config = Campfire.config
         options = {}
-        options[:ssl] = config["use_ssl"] ? true : false
-        campfire = Tinder::Campfire.new(config["subdomain"], options)
-        campfire.login(config["user"], config["pass"])
-        campfire.find_room_by_name(config["room"])
+        options[:ssl] = config[:ssl] ? true : false
+        campfire = Tinder::Campfire.new(config[:subdomain], options)
+        campfire.login(config[:user], config[:pass])
+        campfire.find_room_by_name(config[:room])
       end
     end
 
