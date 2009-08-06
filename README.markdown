@@ -16,6 +16,9 @@ Quickstart
     $ git clone git://github.com/you/yourrepo.git
     $ cijoe yourrepo
 
+Boom. Navigate to http://localhost:4567 to see Joe in action. 
+Check `cijoe -h` for other options.
+
 Basically you need to run `cijoe` and hand it the path to a git 
 repo. Make sure this isn't a shared repo: Joe needs to own it.
 
