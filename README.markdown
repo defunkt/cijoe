@@ -121,4 +121,10 @@ Screenshots
 ![Built](http://img.skitch.com/20090806-f7j3r65yecaq13hdcxqwtc5krd.)
 
 
+Questions? Concerns?
+--------------------
+
+"Issues": http://github.com/defunkt/cijoe/issues or "the mailing list":http://groups.google.com/group/cijoe.
+
+
 ( Chris Wanstrath :: chris@ozmm.org )
