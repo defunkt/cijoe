@@ -78,6 +78,14 @@ You can find the Post-Receive option under the 'Service Hooks' subtab
 of your project's "Admin" tab.
 
 
+Daemonize
+---------
+
+Want to run Joe as a daemon? Use `nohup`:
+
+    $ nohup cijoe -p 4444 repo &
+
+
 Other CI Servers
 ----------------
 
