@@ -112,4 +112,13 @@ Need more features? More notifiers? Check out one of these bad boys:
 * [CruiseControl.rb](http://cruisecontrolrb.thoughtworks.com/)
 * [BuildBot](http://buildbot.net/trac)
 
+
+Screenshots
+-----------
+
+![Building](http://img.skitch.com/20090806-ryw34ksi5ixnrdwxcptqy28iy7.png)
+
+![Built](http://img.skitch.com/20090806-f7j3r65yecaq13hdcxqwtc5krd.)
+
+
 ( Chris Wanstrath :: chris@ozmm.org )
