@@ -1,9 +1,8 @@
 class CIJoe
   module Campfire
     def self.activate
-      if File.exist?('campfire.yml')
+      if valid_config?
         require 'tinder'
-        @campfire_config = YAML.load_file('campfire.yml')
 
         CIJoe::Build.class_eval do
           include CIJoe::Campfire
@@ -12,13 +11,26 @@ class CIJoe
         puts "Loaded Campfire notifier"
       else
         puts "Can't load Campfire notifier."
-        puts "Put a campfire.yml in your repo directory with these keys:"
-        puts " subdomain, user, pass, and room"
+        puts "Please add the following to your project's .git/config:"
+        puts "[campfire]"
+        puts "\tuser = your@campfire.email"
+        puts "\tpass = passw0rd"
+        puts "\tsubdomain = whatever"
+        puts "\troom = Awesomeness"
       end
     end
 
     def self.config
-      @campfire_config
+      @config ||= {
+        :subdomain => Config.campfire.subdomain,
+        :user      => Config.campfire.user,
+        :pass      => Config.campfire.pass,
+        :room      => Config.campfire.room,
+      }
+    end
+
+    def self.valid_config?
+      (config.keys & [ :subdomain, :user, :pass, :room ]).size == 4
     end
 
     def notify
