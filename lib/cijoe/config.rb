@@ -14,8 +14,11 @@ class CIJoe
     end
 
     def to_s
-      command = @parent ? "#{@parent}.#{@command}" : @command
-      `git config #{command}`.chomp
+      `git config #{config_string}`.chomp
+    end
+
+    def config_string
+      @parent ? "#{@parent.config_string}.#{@command}" : @command
     end
   end
 end
