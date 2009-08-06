@@ -112,8 +112,8 @@ class CIJoe
 
   # massage our repo
   def after_git_update
-    if File.exists?('database.yml')
-      `cp database.yml config/database.yml`
+    if File.exists?(hook='.git/hooks/after-reset') && File.executable?(hook)
+      `sh #{hook}`
     end
   end
 end
