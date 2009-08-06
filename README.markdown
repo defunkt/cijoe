@@ -124,7 +124,7 @@ Screenshots
 Questions? Concerns?
 --------------------
 
-"Issues": http://github.com/defunkt/cijoe/issues or "the mailing list":http://groups.google.com/group/cijoe.
+[Issues](http://github.com/defunkt/cijoe/issues) or [the mailing list](http://groups.google.com/group/cijoe).
 
 
 ( Chris Wanstrath :: chris@ozmm.org )
