@@ -14,6 +14,7 @@
 # Seriously, I'm gonna be nuts about keeping this simple.
 
 require 'open4'
+require 'cijoe/version'
 require 'cijoe/build'
 require 'cijoe/campfire'
 require 'cijoe/server'

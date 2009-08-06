@@ -2,4 +2,48 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'cijoe'
-CIJoe::Server.start(ARGV[0])
+require 'choice'
+
+Choice.options do
+  banner "Usage: #{File.basename(__FILE__)} [-hpv] path_to_git_repo"
+  header ''
+  header 'Server options:'
+
+  option :host do
+    d = "0.0.0.0"
+    short '-h'
+    long '--host=HOST'
+    desc "The hostname or ip of the host to bind to (default #{d})"
+    default d
+  end
+
+  option :port do
+    d = 4567
+    short '-p'
+    long '--port=PORT'
+    desc "The port to listen on (default #{d})"
+    cast Integer
+    default d
+  end
+
+  separator ''
+  separator 'Common options: '
+
+  option :help do
+    long '--help'
+    desc 'Show this message'
+  end
+
+  option :version do
+    short '-v'
+    long '--version'
+    desc 'Show version'
+    action do
+      puts "#{File.basename(__FILE__)} v#{CIJoe::Version}"
+      exit
+    end
+  end
+end
+
+options = Choice.choices
+CIJoe::Server.start(options[:host], options[:port], Choice.rest[0])
