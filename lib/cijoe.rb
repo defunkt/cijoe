@@ -15,6 +15,7 @@
 
 require 'open4'
 require 'cijoe/version'
+require 'cijoe/config'
 require 'cijoe/build'
 require 'cijoe/campfire'
 require 'cijoe/server'
@@ -106,7 +107,7 @@ class CIJoe
   end
 
   def git_user_and_project
-    `git config remote.origin.url`.chomp.chomp('.git').split(':')[-1].split('/')[-2, 2]
+    Config.remote.origin.url.chomp('.git').split(':')[-1].split('/')[-2, 2]
   end
 
   # massage our repo
