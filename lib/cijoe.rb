@@ -83,7 +83,7 @@ class CIJoe
     git_update
     @current_build.sha = git_sha
 
-    status = Open4.popen4(rake_command) do |@pid, stdin, stdout, stderr|
+    status = Open4.popen4(runner_command) do |@pid, stdin, stdout, stderr|
       err, out = stderr.read.strip, stdout.read.strip
     end
 
@@ -93,8 +93,9 @@ class CIJoe
   end
 
   # shellin' out
-  def rake_command
-    "rake -s test:units"
+  def runner_command
+    runner = Config.cijoe.runner.to_s
+    runner == '' ? "rake -s test:units" : runner
   end
 
   def git_sha

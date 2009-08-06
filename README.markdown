@@ -15,6 +15,16 @@ Quickstart
 Basically you need to run `cijoe` and hand it the path to a git 
 repo. Make sure this isn't a shared repo: Joe needs to own it.
 
+Joe looks for various git config settings in the repo you hand it. For
+instance, you can tell Joe what command to run by setting
+`cijoe.runner`:
+
+    $ git config --add cijoe.runner "rake -s test:units"
+    
+Joe doesn't care about Ruby, Python, or whatever. As long as the
+runner returns a non-zero exit status on fail and a zero on success,
+everyone is happy.
+
 Need to do some massaging of your repo before the tests run, like
 maybe swapping in a new database.yml? No problem - Joe will try to
 run `.git/hooks/after-reset` if it exists. Do it in there. Just make
