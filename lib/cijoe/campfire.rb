@@ -30,7 +30,7 @@ class CIJoe
     end
 
     def self.valid_config?
-      (config.keys & [ :subdomain, :user, :pass, :room ]).size == 4
+      config.all? { |key, value| !value.empty? }
     end
 
     def notify
