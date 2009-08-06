@@ -26,7 +26,7 @@ class CIJoe
       end
     end
 
-    def self.start(host, port, project_path)
+    def self.start(host, port, environment, project_path)
       check_project(project_path)
 
       joe = CIJoe.new(project_path)
@@ -40,7 +40,7 @@ class CIJoe
       end
 
       CIJoe::Campfire.activate
-      CIJoe::Server.run! :host => host, :port => port
+      CIJoe::Server.run! :host => host, :port => port, :environment => environment
     end
 
     def self.check_project(project)
