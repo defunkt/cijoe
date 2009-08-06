@@ -39,6 +39,7 @@ class CIJoe
         redirect '/'
       end
 
+      CIJoe::Campfire.activate
       CIJoe::Server.run!
     end
 
