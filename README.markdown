@@ -49,4 +49,14 @@ of Joe! He can run on any port - try `cijoe -h` for more options.
 
 
 
+Other CI Servers
+----------------
+
+Need more features? More notifiers? Check out one of these bad boys:
+
+* [Cerberus](http://cerberus.rubyforge.org/)
+* [Integrity](http://integrityapp.com/)
+* [CruiseControl.rb](http://cruisecontrolrb.thoughtworks.com/)
+* [BuildBot](http://buildbot.net/trac)
+
 ( Chris Wanstrath :: chris@ozmm.org )
