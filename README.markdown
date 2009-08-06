@@ -1,8 +1,8 @@
 CI Joe
 ======
 
-Joe is a "Continuous
-Integration":http://en.wikipedia.org/wiki/Continuous_integration
+Joe is a [Continuous
+Integration](http://en.wikipedia.org/wiki/Continuous_integration)
 server that'll run your tests on demand and report on their pass/fail status.
 
 Because knowing is half the battle.
