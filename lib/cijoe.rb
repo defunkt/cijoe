@@ -56,10 +56,12 @@ class CIJoe
   # build callbacks
   def build_failed(output, error)
     finish_build :failed, "#{error}\n\n#{output}"
+    run_hook "build-failed"
   end
 
   def build_worked(output)
     finish_build :worked, output
+    run_hook "build-worked"
   end
 
   def finish_build(status, output)
@@ -106,7 +108,7 @@ class CIJoe
 
   def git_update
     `git fetch origin && git reset --hard origin/master`
-    after_git_update
+    run_hook "after-reset"
   end
 
   def git_user_and_project
@@ -114,8 +116,8 @@ class CIJoe
   end
 
   # massage our repo
-  def after_git_update
-    if File.exists?(hook='.git/hooks/after-reset') && File.executable?(hook)
+  def run_hook(hook)
+    if File.exists?(file='.git/hooks/#{hook}') && File.executable?(file)
       `sh #{hook}`
     end
   end

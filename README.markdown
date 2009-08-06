@@ -27,14 +27,23 @@ everyone is happy.
 
 Need to do some massaging of your repo before the tests run, like
 maybe swapping in a new database.yml? No problem - Joe will try to
-run `.git/hooks/after-reset` if it exists. Do it in there. Just make
-sure it's executable.
+run `.git/hooks/after-reset` if it exists before each build phase. 
+Do it in there. Just make sure it's executable.
+
+Want to notify IRC or email on test pass or failure? Joe will run
+`.git/hooks/build-failed` or `.git/hooks/build-worked` if they exist
+and are executable on build pass / fail. They're just shell scripts -
+put whatever you want in there.
+
+Tip: your repo's `HEAD` will point to the commit used to run the
+build. Pull any metadata you want out of that bad boy.
 
 
 Campfire
 --------
 
-Want Joe to notify Campfire? Put this in your repo's `.git/config`:
+Campfire notification is included, because it's what we use. Want Joe
+notify your Campfire? Put this in your repo's `.git/config`:
 
     [campfire]
     	user = your@campfire.email
