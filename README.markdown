@@ -57,12 +57,6 @@ Want CI for multiple projects? Just start multiple instances of Joe!
 He can run on any port - try `cijoe -h` for more options.
 
 
-GitHub Integration
-------------------
-
-Any POST to Joe will trigger a build. 
-
-
 HTTP Auth
 ---------
 
@@ -70,6 +64,18 @@ Worried about people triggering your builds? Setup HTTP auth:
 
     $ git config --add cijoe.user chris
     $ git config --add cijoe.pass secret
+
+
+GitHub Integration
+------------------
+
+Any POST to Joe will trigger a build. If you are hiding Joe behind
+HTTP auth, that's okay - GitHub knows how to authenticate properly.
+
+![Post-Receive URL](http://img.skitch.com/20090806-d2bxrk733gqu8m11tf4kyir5d8.png)
+ 
+You can find the Post-Receive option under the 'Service Hooks' subtab
+of your project's "Admin" tab.
 
 
 Other CI Servers
