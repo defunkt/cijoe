@@ -107,7 +107,7 @@ class CIJoe
   end
 
   def git_user_and_project
-    Config.remote.origin.url.chomp('.git').split(':')[-1].split('/')[-2, 2]
+    Config.remote.origin.url.to_s.chomp('.git').split(':')[-1].split('/')[-2, 2]
   end
 
   # massage our repo

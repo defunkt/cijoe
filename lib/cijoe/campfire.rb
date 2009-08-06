@@ -22,10 +22,10 @@ class CIJoe
 
     def self.config
       @config ||= {
-        :subdomain => Config.campfire.subdomain,
-        :user      => Config.campfire.user,
-        :pass      => Config.campfire.pass,
-        :room      => Config.campfire.room,
+        :subdomain => Config.campfire.subdomain.to_s,
+        :user      => Config.campfire.user.to_s,
+        :pass      => Config.campfire.pass.to_s,
+        :room      => Config.campfire.room.to_s,
       }
     end
 
