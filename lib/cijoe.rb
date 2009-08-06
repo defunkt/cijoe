@@ -102,9 +102,17 @@ class CIJoe
 
   def git_update
     `git fetch origin && git reset --hard origin/master`
+    after_git_update
   end
 
   def git_user_and_project
     `git config remote.origin.url`.chomp.chomp('.git').split(':')[-1].split('/')[-2, 2]
+  end
+
+  # massage our repo
+  def after_git_update
+    if File.exists?('database.yml')
+      `cp database.yml config/database.yml`
+    end
   end
 end
