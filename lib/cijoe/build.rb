@@ -35,7 +35,7 @@ class CIJoe
     end
 
     def clean_output
-      string.gsub("\e[0m", '').
+      output.gsub("\e[0m", '').
         gsub("\e[31m", '').
         gsub("\e[32m", '').
         gsub("\e[33m", '').
