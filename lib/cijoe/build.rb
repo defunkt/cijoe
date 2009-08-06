@@ -18,20 +18,8 @@ class CIJoe
       status == :worked
     end
 
-    def started_at
-      super.strftime(date_format) if super
-    end
-
-    def finished_at
-      super.strftime(date_format) if super
-    end
-
     def short_sha
       sha[0,7] if sha
-    end
-
-    def date_format
-      "%Y-%m-%d %H:%M"
     end
 
     def clean_output

@@ -22,6 +22,7 @@ require 'cijoe/server'
 
 class CIJoe
   attr_reader :user, :project, :url, :current_build, :last_build
+
   def initialize(project_path)
     project_path = File.expand_path(project_path)
     Dir.chdir(project_path)

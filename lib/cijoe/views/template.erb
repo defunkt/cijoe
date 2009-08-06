@@ -226,7 +226,7 @@ ul.posts {
         <ul class="posts">
           <% if joe.current_build %>
             <li>
-              <span class="date"><%= joe.current_build.started_at if joe.current_build %></span> &raquo;
+              <span class="date"><%= pretty(joe.current_build.started_at) if joe.current_build %></span> &raquo;
               <% if joe.current_build.sha %>
                 Building <a href="<%= joe.url %>/commits/<%= joe.current_build.sha %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small>
               <% else %>
@@ -238,7 +238,7 @@ ul.posts {
           <% end %>
           
           <% if joe.last_build %>
-            <li><span class="date"><%= joe.last_build.finished_at %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
+            <li><span class="date"><%= pretty(joe.last_build.finished_at) %></span> &raquo; Built <a href="<%= joe.url %>/commits/<%= joe.last_build.sha %>"><%= joe.last_build.short_sha %></a> <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span></li>
             <li><pre class="terminal"><code><%=bash_color_codes h(joe.last_build.output) %></code></pre></li>
           <% end %>
         </ul>

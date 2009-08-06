@@ -24,6 +24,10 @@ class CIJoe
           gsub("\e[36m", '<span class="color36">').
           gsub("\e[37m", '<span class="color37">')
       end
+
+      def pretty_time(time)
+        time.strftime("%Y-%m-%d %H:%M")
+      end
     end
 
     def self.start(host, port, project_path)
