@@ -23,7 +23,7 @@ class CIJoe
     end
 
     def clean_output
-      output.gsub(/\e[.+?m/, '').strip
+      output.gsub(/\e\[.+?m/, '').strip
     end
 
     def commit
