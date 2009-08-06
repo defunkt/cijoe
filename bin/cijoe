@@ -26,14 +26,6 @@ Choice.options do
     default d
   end
 
-  option :environment do
-    d = "development"
-    short '-e'
-    long '--environment=ENV'
-    desc "The Sinatra environment to use (default #{d})"
-    default d
-  end
-
   separator ''
   separator 'Common options: '
 
@@ -54,4 +46,4 @@ Choice.options do
 end
 
 options = Choice.choices
-CIJoe::Server.start(options[:host], options[:port], options[:environment], Choice.rest[0])
+CIJoe::Server.start(options[:host], options[:port], Choice.rest[0])
