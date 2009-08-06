@@ -26,8 +26,10 @@ class CIJoe
       end
     end
 
-    def self.start(user, project)
-      joe = CIJoe.new(user, project)
+    def self.start(project_path)
+      check_project(project_path)
+
+      joe = CIJoe.new(project_path)
       get '/' do
         erb(:template, {}, :joe => joe)
       end
@@ -40,22 +42,12 @@ class CIJoe
       CIJoe::Server.run!
     end
 
-    def self.parse_args(args = ARGV)
-      name_with_owner = args[0]
-
-      if name_with_owner.nil? || !name_with_owner.include?('/')
-        puts "Whoops! I need a project name (e.g. mojombo/grit)"
-        abort "  $ cijoe project_name"
-      else
-        user, project = name_with_owner.split('/')
+    def self.check_project(project)
+      if project.nil? || !File.exists?(project)
+        puts "Whoops! I need the path to a Git repo."
+        puts "  $ git clone git@github.com:username/project.git project"
+        abort "  $ cijoe project"
       end
-
-      if !File.exists?(project)
-        puts "Whoops! You need to do this first:"
-        abort "  $ git clone git@github.com:#{name_with_owner}.git #{project}"
-      end
-
-      [ user, project ]
     end
   end
 end

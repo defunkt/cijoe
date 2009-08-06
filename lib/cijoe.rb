@@ -20,14 +20,17 @@ require 'cijoe/server'
 
 class CIJoe
   attr_reader :user, :project, :url, :current_build, :last_build
-  def initialize(user, project)
-    @user = user
-    @project = project
-    @url = "http://github.com/#{user}/#{project}"
+  def initialize(project_path)
+    project_path = File.expand_path(project_path)
+    Dir.chdir(project_path)
+
+    @user, @project = git_user_and_project
+    @url = "http://github.com/#{@user}/#{@project}"
+
     @last_build = nil
     @current_build = nil
+
     trap("INT") { stop }
-    Dir.chdir("#{Dir.pwd}/#{project}")
   end
 
   # is a build running?
@@ -98,5 +101,9 @@ class CIJoe
 
   def git_update
     `git fetch origin && git reset --hard origin/master`
+  end
+
+  def git_user_and_project
+    `git config remote.origin.url`.chomp.chomp('.git').split(':')[-1].split('/')[-2, 2]
   end
 end
