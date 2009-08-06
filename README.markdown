@@ -13,12 +13,12 @@ Quickstart
     $ cijoe yourrepo
 
 Basically you need to run `cijoe` and hand it the path to a git 
-repo. Make sure this isn't a shared repo: Joe is gonna mess with it
-and therefor needs to own it.
+repo. Make sure this isn't a shared repo: Joe needs to own it.
 
 Need to do some massaging of your repo before the tests run, like
 maybe swapping in a new database.yml? No problem - Joe will try to
-run `.git/hooks/after-reset` if it exists. Do it in there.
+run `.git/hooks/after-reset` if it exists. Do it in there. Just make
+sure it's executable.
 
 
 Campfire
