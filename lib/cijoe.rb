@@ -103,16 +103,21 @@ class CIJoe
   end
 
   def git_sha
-    `git rev-parse origin/master`.chomp
+    `git rev-parse origin/#{git_branch}`.chomp
   end
 
   def git_update
-    `git fetch origin && git reset --hard origin/master`
+    `git fetch origin && git reset --hard origin/#{git_branch}`
     run_hook "after-reset"
   end
 
   def git_user_and_project
     Config.remote.origin.url.to_s.chomp('.git').split(':')[-1].split('/')[-2, 2]
+  end
+
+  def git_branch
+    branch = Config.cijoe.branch.to_s 
+    branch == '' ? "master" : branch
   end
 
   # massage our repo
