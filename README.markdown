@@ -12,7 +12,7 @@ Because knowing is half the battle.
 Quickstart
 ----------
     
-    $ rip install git://github.com/defunkt/cijoe.git 0.1.0
+    $ rip install git://github.com/defunkt/cijoe.git 0.1.1
     $ git clone git://github.com/you/yourrepo.git
     $ cijoe yourrepo
 
