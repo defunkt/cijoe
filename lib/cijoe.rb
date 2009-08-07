@@ -117,7 +117,7 @@ class CIJoe
 
   # massage our repo
   def run_hook(hook)
-    if File.exists?(file='.git/hooks/#{hook}') && File.executable?(file)
+    if File.exists?(file=".git/hooks/#{hook}") && File.executable?(file)
       `sh #{file}`
     end
   end
