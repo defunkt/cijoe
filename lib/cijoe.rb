@@ -87,7 +87,8 @@ class CIJoe
     git_update
     @current_build.sha = git_sha
 
-    status = Open4.popen4(runner_command) do |@pid, stdin, stdout, stderr|
+    status = Open4.popen4(runner_command) do |pid, stdin, stdout, stderr|
+      @pid = pid
       err, out = stderr.read.strip, stdout.read.strip
     end
 
