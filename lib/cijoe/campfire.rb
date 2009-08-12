@@ -32,7 +32,9 @@ class CIJoe
     end
 
     def self.valid_config?
-      config.all? { |key, value| !value.empty? }
+      %w( subdomain user pass room ).all? do |key|
+        !config[key.intern].empty?
+      end
     end
 
     def notify
