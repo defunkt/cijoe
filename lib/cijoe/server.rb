@@ -39,7 +39,10 @@ class CIJoe
       end
 
       post '/' do
-        joe.build if params[:payload].to_s.include? joe.git_branch
+        payload = params[:payload].to_s
+        if payload.empty? || payload.include?(joe.git_branch)
+          joe.build
+        end
         redirect '/'
       end
 
