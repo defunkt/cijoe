@@ -46,6 +46,14 @@ Tip: your repo's `HEAD` will point to the commit used to run the
 build. Pull any metadata you want out of that scro.
 
 
+Other Branches
+--------------
+
+Want joe to run against a branch other than `master`? No problem:
+
+    $ git config --add cijoe.branch deploy
+
+
 Campfire
 --------
 
@@ -57,6 +65,7 @@ notify your Campfire? Put this in your repo's `.git/config`:
     	pass = passw0rd
     	subdomain = whatever
     	room = Awesomeness
+      ssl = false
 
 Or do it the old fashion way:
 
