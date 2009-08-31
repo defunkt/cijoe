@@ -9,6 +9,19 @@ class CIJoe
     set :public, "#{dir}/public"
     set :static, true
 
+    get '/?' do
+      erb(:template, {}, :joe => @joe)
+    end
+
+    post '/?' do
+      payload = params[:payload].to_s
+      if payload.empty? || payload.include?(@joe.git_branch)
+        @joe.build
+      end
+      redirect request.path
+    end
+
+
     helpers do
       include Rack::Utils
       alias_method :h, :escape_html
@@ -30,37 +43,29 @@ class CIJoe
       end
     end
 
-    def self.start(host, port, project_path)
-      check_project(project_path)
-
-      joe = CIJoe.new(project_path)
-      get '/' do
-        erb(:template, {}, :joe => joe)
-      end
-
-      post '/' do
-        payload = params[:payload].to_s
-        if payload.empty? || payload.include?(joe.git_branch)
-          joe.build
-        end
-        redirect '/'
-      end
-
+    def initialize(*args)
+      super
+      @joe = CIJoe.new(options.project_path)
+      check_project
       setup_auth
 
       CIJoe::Campfire.activate
+    end
+
+    def self.start(host, port, project_path)
+      set :project_path, project_path
       CIJoe::Server.run! :host => host, :port => port
     end
 
-    def self.check_project(project)
-      if project.nil? || !File.exists?(project)
+    def check_project
+      if options.project_path.nil? || !File.exists?(options.project_path)
         puts "Whoops! I need the path to a Git repo."
         puts "  $ git clone git@github.com:username/project.git project"
         abort "  $ cijoe project"
       end
     end
 
-    def self.setup_auth
+    def setup_auth
       user, pass = Config.cijoe.user.to_s, Config.cijoe.pass.to_s
 
       if user != '' && pass != ''
