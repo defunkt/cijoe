@@ -27,7 +27,7 @@ class CIJoe
         :user      => Config.campfire.user.to_s,
         :pass      => Config.campfire.pass.to_s,
         :room      => Config.campfire.room.to_s,
-        :ssl       => Config.campfire.ssl.strip == 'true'
+        :ssl       => Config.campfire.ssl.to_s.strip == 'true'
       }
     end
 
