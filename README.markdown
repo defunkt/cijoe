@@ -71,7 +71,7 @@ Or do it the old fashion way:
 
     $ cd yourrepo
     $ git config --add campfire.user chris@ozmm.org
-    $ git config --add campfire.domain github
+    $ git config --add campfire.subdomain github
     etc.
 
 
