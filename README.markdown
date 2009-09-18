@@ -65,7 +65,7 @@ notify your Campfire? Put this in your repo's `.git/config`:
     	pass = passw0rd
     	subdomain = whatever
     	room = Awesomeness
-      ssl = false
+    	ssl = false
 
 Or do it the old fashion way:
 
