@@ -13,7 +13,12 @@
 #
 # Seriously, I'm gonna be nuts about keeping this simple.
 
-require 'open4'
+begin
+  require 'open4'
+rescue LoadError
+  abort "** Please install open4"
+end
+
 require 'cijoe/version'
 require 'cijoe/config'
 require 'cijoe/commit'
