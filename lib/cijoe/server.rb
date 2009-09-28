@@ -45,8 +45,8 @@ class CIJoe
 
     def initialize(*args)
       super
-      @joe = CIJoe.new(options.project_path)
       check_project
+      @joe = CIJoe.new(options.project_path)
       setup_auth
 
       CIJoe::Campfire.activate
@@ -58,7 +58,7 @@ class CIJoe
     end
 
     def check_project
-      if options.project_path.nil? || !File.exists?(options.project_path)
+      if options.project_path.nil? || !File.exists?(File.expand_path(options.project_path))
         puts "Whoops! I need the path to a Git repo."
         puts "  $ git clone git@github.com:username/project.git project"
         abort "  $ cijoe project"
