@@ -122,7 +122,7 @@ class CIJoe
   end
 
   def git_branch
-    branch = Config.cijoe.branch.to_s 
+    branch = Config.cijoe.branch.to_s
     branch == '' ? "master" : branch
   end
 
