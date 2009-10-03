@@ -11,8 +11,16 @@ Because knowing is half the battle.
  
 Quickstart
 ----------
+
+Rip:
     
-    $ rip install git://github.com/defunkt/cijoe.git 0.1.1
+    $ rip install git://github.com/defunkt/cijoe.git
+    $ git clone git://github.com/you/yourrepo.git
+    $ cijoe yourrepo
+
+Gemcutter:
+    
+    $ gem install cijoe
     $ git clone git://github.com/you/yourrepo.git
     $ cijoe yourrepo
 
