@@ -35,7 +35,7 @@ class CIJoe
       alias_method :h, :escape_html
 
       # thanks integrity!
-      def bash_color_codes(string)
+      def ansi_color_codes(string)
         string.gsub("\e[0m", '</span>').
           gsub(/\e\[(\d+)m/, "<span class=\"color\\1\">")
       end
