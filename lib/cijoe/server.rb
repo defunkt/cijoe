@@ -43,6 +43,12 @@ class CIJoe
       def pretty_time(time)
         time.strftime("%Y-%m-%d %H:%M")
       end
+
+      def cijoe_root
+        root = request.path
+        root = "" if root == "/"
+        root
+      end
     end
 
     def initialize(*args)
