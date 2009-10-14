@@ -21,6 +21,14 @@ class CIJoe
       redirect request.path
     end
 
+    user, pass = Config.cijoe.user.to_s, Config.cijoe.pass.to_s
+    if user != '' && pass != ''
+      p [user, pass]
+      use Rack::Auth::Basic do |username, password|
+        [ username, password ] == [ user, pass ]
+      end
+      puts "Using HTTP basic auth"
+    end
 
     helpers do
       include Rack::Utils
@@ -47,7 +55,6 @@ class CIJoe
       super
       check_project
       @joe = CIJoe.new(options.project_path)
-      setup_auth
 
       CIJoe::Campfire.activate
     end
@@ -62,17 +69,6 @@ class CIJoe
         puts "Whoops! I need the path to a Git repo."
         puts "  $ git clone git@github.com:username/project.git project"
         abort "  $ cijoe project"
-      end
-    end
-
-    def setup_auth
-      user, pass = Config.cijoe.user.to_s, Config.cijoe.pass.to_s
-
-      if user != '' && pass != ''
-        use Rack::Auth::Basic do |username, password|
-          [ username, password ] == [ user, pass ]
-        end
-        puts "Using HTTP basic auth"
       end
     end
   end
