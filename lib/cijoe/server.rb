@@ -23,7 +23,6 @@ class CIJoe
 
     user, pass = Config.cijoe.user.to_s, Config.cijoe.pass.to_s
     if user != '' && pass != ''
-      p [user, pass]
       use Rack::Auth::Basic do |username, password|
         [ username, password ] == [ user, pass ]
       end
