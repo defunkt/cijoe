@@ -17,5 +17,6 @@ begin
     gemspec.version = CIJoe::Version.to_s
   end
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+  puts "Jeweler not available." 
+  puts "Install it with: gem install jeweler"
 end
