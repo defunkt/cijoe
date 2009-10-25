@@ -1,3 +1,6 @@
+desc "Build a gem"
+task :gem => [ :gemspec, :build ]
+
 begin
   require 'jeweler'
 
