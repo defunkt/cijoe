@@ -89,24 +89,6 @@ Multiple Projects
 Want CI for multiple projects? Just start multiple instances of Joe!
 He can run on any port - try `cijoe -h` for more options.
 
-Thanks to Dean Strelau you can also run multiple instances of CI Joe using
-a single `config.ru` file.
-
-In particular, it is possible to mount Server at a subpath:
-
-    map '/foo' do
-       run CIJoe::Server.set(:project_path => 'projects/foo')
-    end
-
-and you can even run multiple instances of Joe if you subclass:
-
-    map '/foo' do
-      run Class.new(CIJoe::Server).set(:project_path => 'projects/foo')
-    end
-    map '/bar' do
-      run Class.new(CIJoe::Server).set(:project_path => 'projects/bar')
-    end
-
 
 HTTP Auth
 ---------
