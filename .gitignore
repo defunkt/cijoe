@@ -1,0 +1,6 @@
+.DS_Store
+rdoc
+pkg
+*.tmproj
+tmp/**/*
+tmp/*
