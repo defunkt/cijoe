@@ -16,7 +16,6 @@ begin
     gemspec.authors = ["Chris Wanstrath"]
     gemspec.add_dependency 'choice'
     gemspec.add_dependency 'sinatra'
-    gemspec.add_dependency 'open4'
     gemspec.version = CIJoe::Version.to_s
   end
 rescue LoadError
