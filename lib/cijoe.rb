@@ -13,12 +13,6 @@
 #
 # Seriously, I'm gonna be nuts about keeping this simple.
 
-begin
-  require 'open4'
-rescue LoadError
-  abort "** Please install open4"
-end
-
 require 'cijoe/version'
 require 'cijoe/config'
 require 'cijoe/commit'
@@ -59,7 +53,7 @@ class CIJoe
   end
 
   # build callbacks
-  def build_failed(output, error)
+  def build_failed(output,error)
     finish_build :failed, "#{error}\n\n#{output}"
     run_hook "build-failed"
   end
@@ -92,18 +86,18 @@ class CIJoe
   # update git then run the build
   def build!
     build = @current_build
-    out, err, status = '', '', nil
+    output = ''
     git_update
     build.sha = git_sha
     write_build 'current', build
-
-    status = Open4.popen4(runner_command) do |pid, stdin, stdout, stderr|
+    
+    IO.popen("#{runner_command} 2>&1") do |pipe|
       build.pid = pid
       write_build 'current', build
-      err, out = stderr.read.strip, stdout.read.strip
+      output = pipe.read
     end
 
-    status.exitstatus.to_i == 0 ? build_worked(out) : build_failed(out, err)
+    $?.exitstatus.to_i == 0 ? build_worked(output) : build_failed('', output)
   rescue Object => e
     build_failed('', e.to_s)
   end
