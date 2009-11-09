@@ -14,11 +14,29 @@ class CIJoe
     end
 
     def to_s
-      `git config #{config_string}`.chomp
+      git_command = "git config #{config_string}"
+      result = `#{git_command} 2>&1`.chomp
+      process_status = $?
+      
+      if successful_command?(process_status) || config_command_with_empty_value?(result,process_status)
+        return result
+      else
+        raise "Error calling git config, is a recent version of git installed? Command: #{git_command}, Error: #{result}"
+      end
     end
 
     def config_string
       @parent ? "#{@parent.config_string}.#{@command}" : @command
     end
+    
+    private
+    
+    def successful_command?(process_status)
+      process_status.exitstatus.to_i == 0
+    end
+    
+    def config_command_with_empty_value?(result, process_status)
+      process_status.exitstatus.to_i == 1 && result.empty?
+    end    
   end
 end
