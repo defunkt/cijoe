@@ -8,6 +8,7 @@ class CIJoe
     set :views,  "#{dir}/views"
     set :public, "#{dir}/public"
     set :static, true
+    set :lock, true
 
     before { @joe.restore }
 
