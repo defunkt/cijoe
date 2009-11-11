@@ -49,7 +49,7 @@ class CIJoe
 
   # the pid of the running child process
   def pid
-    building? and @pid
+    building? and current_build.pid
   end
 
   # kill the child and exit
@@ -95,10 +95,10 @@ class CIJoe
     out, err, status = '', '', nil
     git_update
     build.sha = git_sha
-    write_build 'current', build
 
     status = Open4.popen4(runner_command) do |pid, stdin, stdout, stderr|
-      @pid = pid
+      build.pid = pid
+      write_build 'current', build
       err, out = stderr.read.strip, stdout.read.strip
     end
 
@@ -147,8 +147,13 @@ class CIJoe
 
   # restore current / last build state from disk.
   def restore
-    @current_build = read_build('current')
     @last_build = read_build('last')
+    @current_build = read_build('current')
+    Process.kill(0, @current_build.pid) if @current_build && @current_build.pid
+  rescue Errno::ESRCH
+    # build pid isn't running anymore. assume previous
+    # server died and reset.
+    @current_build = nil
   end
 
   # write build info for build to file.
