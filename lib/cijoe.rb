@@ -134,12 +134,17 @@ class CIJoe
   # massage our repo
   def run_hook(hook)
     if File.exists?(file=".git/hooks/#{hook}") && File.executable?(file)
-      data = {
-        "MESSAGE" => @last_build.commit.message,
-        "AUTHOR" => @last_build.commit.author,
-        "SHA" => @last_build.commit.sha,
-        "OUTPUT" => @last_build.clean_output
-      }
+      data =
+        if @last_build && @last_build.commit
+          {
+            "MESSAGE" => @last_build.commit.message,
+            "AUTHOR" => @last_build.commit.author,
+            "SHA" => @last_build.commit.sha,
+            "OUTPUT" => @last_build.clean_output
+          }
+        else
+          {}
+        end
       env = data.collect { |k, v| %(#{k}=#{v.inspect}) }.join(" ")
       `#{env} sh #{file}`
     end

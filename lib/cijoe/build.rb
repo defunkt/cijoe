@@ -29,6 +29,7 @@ class CIJoe
     end
 
     def commit
+      return if sha.nil?
       @commit ||= Commit.new(sha, user, project)
     end
 
