@@ -9,6 +9,8 @@ class CIJoe
     set :public, "#{dir}/public"
     set :static, true
 
+    before { @joe.restore }
+
     get '/?' do
       erb(:template, {}, :joe => @joe)
     end

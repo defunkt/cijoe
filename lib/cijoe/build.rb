@@ -1,3 +1,5 @@
+require 'yaml'
+
 class CIJoe
   class Build < Struct.new(:user, :project, :started_at, :finished_at, :sha, :status, :output)
     def initialize(*args)
@@ -28,6 +30,19 @@ class CIJoe
 
     def commit
       @commit ||= Commit.new(sha, user, project)
+    end
+
+    def dump(file)
+      config = [user, project, started_at, finished_at, sha, status, output]
+      data = YAML.dump(config)
+      File.open(file, 'wb') { |io| io.write(data) }
+    end
+
+    def self.load(file)
+      if File.exist?(file)
+        config = YAML.load(File.read(file))
+        new *config
+      end
     end
   end
 end

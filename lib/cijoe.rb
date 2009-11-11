@@ -75,6 +75,8 @@ class CIJoe
     @current_build.output = output
     @last_build = @current_build
     @current_build = nil
+    write_build 'current', @current_build
+    write_build 'last', @last_build
     @last_build.notify if @last_build.respond_to? :notify
   end
 
@@ -83,14 +85,17 @@ class CIJoe
   def build
     return if building?
     @current_build = Build.new(@user, @project)
+    write_build 'current', @current_build
     Thread.new { build! }
   end
 
   # update git then run the build
   def build!
+    build = @current_build
     out, err, status = '', '', nil
     git_update
-    @current_build.sha = git_sha
+    build.sha = git_sha
+    write_build 'current', build
 
     status = Open4.popen4(runner_command) do |pid, stdin, stdout, stderr|
       @pid = pid
@@ -138,5 +143,27 @@ class CIJoe
       env = data.collect { |k, v| %(#{k}=#{v.inspect}) }.join(" ")
       `#{env} sh #{file}`
     end
+  end
+
+  # restore current / last build state from disk.
+  def restore
+    @current_build = read_build('current')
+    @last_build = read_build('last')
+  end
+
+  # write build info for build to file.
+  def write_build(name, build)
+    filename = ".git/builds/#{name}"
+    Dir.mkdir '.git/builds' unless File.directory?('.git/builds')
+    if build
+      build.dump filename
+    elsif File.exist?(filename)
+      File.unlink filename
+    end
+  end
+
+  # load build info from file.
+  def read_build(name)
+    Build.load(".git/builds/#{name}")
   end
 end
