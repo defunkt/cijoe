@@ -5,15 +5,15 @@ class CIJoe
     end
 
     def author
-      raw_commit_lines[1].split(':')[-1]
+      raw_commit_lines.grep(/Author:/).first.split(':', 2)[-1]
     end
 
     def committed_at
-      raw_commit_lines[2].split(':', 2)[-1]
+      raw_commit_lines.grep(/Date:/).first.split(':', 2)[-1]
     end
 
     def message
-      raw_commit_lines[4].split(':')[-1].strip
+      raw_commit.split("\n\n", 2).last.strip
     end
 
     def raw_commit
