@@ -13,7 +13,7 @@ class CIJoe
     end
 
     def message
-      raw_commit.split("\n\n", 2).last.strip
+      raw_commit.split("\n\n", 3)[1].to_s.strip
     end
 
     def raw_commit
