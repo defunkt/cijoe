@@ -95,6 +95,7 @@ class CIJoe
     out, err, status = '', '', nil
     git_update
     build.sha = git_sha
+    write_build 'current', build
 
     status = Open4.popen4(runner_command) do |pid, stdin, stdout, stderr|
       build.pid = pid
