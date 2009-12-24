@@ -53,7 +53,7 @@ class CIJoe
   end
 
   # build callbacks
-  def build_failed(output,error)
+  def build_failed(output, error)
     finish_build :failed, "#{error}\n\n#{output}"
     run_hook "build-failed"
   end
@@ -90,7 +90,7 @@ class CIJoe
     git_update
     build.sha = git_sha
     write_build 'current', build
-    
+
     IO.popen("#{runner_command} 2>&1") do |pipe|
       build.pid = pid
       write_build 'current', build
