@@ -168,8 +168,14 @@ class CIJoe
 
   # restore current / last build state from disk.
   def restore
-    @last_build = read_build('last')
-    @current_build = read_build('current')
+    unless @last_build
+      @last_build = read_build('last')
+    end
+
+    unless @current_build
+      @current_build = read_build('current')
+    end
+
     Process.kill(0, @current_build.pid) if @current_build && @current_build.pid
   rescue Errno::ESRCH
     # build pid isn't running anymore. assume previous
