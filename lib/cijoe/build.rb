@@ -21,7 +21,11 @@ class CIJoe
     end
 
     def short_sha
-      sha[0,7] if sha
+      if sha
+        sha[0,7]
+      else
+        "<unknown>"
+      end
     end
 
     def clean_output
