@@ -3,6 +3,8 @@ require 'erb'
 
 class CIJoe
   class Server < Sinatra::Base
+    attr_reader :joe
+
     dir = File.dirname(File.expand_path(__FILE__))
 
     set :views,  "#{dir}/views"
@@ -11,6 +13,14 @@ class CIJoe
     set :lock, true
 
     before { @joe.restore }
+
+    get '/ping' do
+      if @joe.building? || !@joe.last_build || !@joe.last_build.worked?
+        halt 412, joe.last_build ? joe.last_build.sha : "building"
+      end
+
+      joe.last_build.sha
+    end
 
     get '/?' do
       erb(:template, {}, :joe => @joe)
