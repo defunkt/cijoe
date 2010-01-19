@@ -12,10 +12,10 @@ class CIJoe
     set :static, true
     set :lock, true
 
-    before { @joe.restore }
+    before { joe.restore }
 
     get '/ping' do
-      if @joe.building? || !@joe.last_build || !@joe.last_build.worked?
+      if joe.building? || !joe.last_build || !joe.last_build.worked?
         halt 412, joe.last_build ? joe.last_build.sha : "building"
       end
 
@@ -23,13 +23,13 @@ class CIJoe
     end
 
     get '/?' do
-      erb(:template, {}, :joe => @joe)
+      erb(:template, {}, :joe => joe)
     end
 
     post '/?' do
       payload = params[:payload].to_s
-      if payload.empty? || payload.include?(@joe.git_branch)
-        @joe.build
+      if payload.empty? || payload.include?(joe.git_branch)
+        joe.build
       end
       redirect request.path
     end
