@@ -89,7 +89,7 @@ class CIJoe
 
     pid = fork do
       read.close
-      STDOUT.reopen write
+      $stdout.reopen write
       exec cmd
     end
 
