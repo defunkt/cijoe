@@ -14,14 +14,16 @@ class CIJoe
     end
 
     def to_s
-      git_command = "git config #{config_string}"
-      result = `#{git_command} 2>&1`.chomp
-      process_status = $?
+      Dir.chdir($project_path) do
+        git_command = "git config #{config_string}"
+        result = `#{git_command} 2>&1`.chomp
+        process_status = $?
       
-      if successful_command?(process_status) || config_command_with_empty_value?(result,process_status)
-        return result
-      else
-        raise "Error calling git config, is a recent version of git installed? Command: #{git_command}, Error: #{result}"
+        if successful_command?(process_status) || config_command_with_empty_value?(result,process_status)
+          return result
+        else
+          raise "Error calling git config, is a recent version of git installed? Command: #{git_command}, Error: #{result}"
+        end
       end
     end
 

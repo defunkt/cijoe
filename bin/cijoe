@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'cijoe'
 require 'choice'
 
 Choice.options do
@@ -46,4 +45,8 @@ Choice.options do
 end
 
 options = Choice.choices
-CIJoe::Server.start(options[:host], options[:port], Choice.rest[0])
+$project_path = File.expand_path(Choice.rest[0])
+
+require 'cijoe'
+
+CIJoe::Server.start(options[:host], options[:port], $project_path)
