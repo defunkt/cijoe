@@ -20,6 +20,15 @@ class CIJoe
       status == :worked
     end
 
+    def building?
+      status == :building
+    end
+
+    def duration
+      return if building?
+      finished_at - started_at
+    end
+
     def short_sha
       if sha
         sha[0,7]
