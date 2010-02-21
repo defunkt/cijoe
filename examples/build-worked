@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Put this file to $PROJECT/.git/hooks/ for email notifications.
+#
+# You should have mail command provided by mailutils package on Debian
+# based systems.
+#
+# sudo apt-get install mailutils
+#
+# You should have mail server running
+#
+# Do not forget: chmod +x build-worked
+#
+echo "
+Visit http://ci.example.org/ for details
+
+Author: $AUTHOR
+Message:
+$MESSAGE
+
+" | mail -s "[example.org] build OK"  --to first@gmail.com second@gmail.com
+
