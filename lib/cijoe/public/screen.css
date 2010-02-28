@@ -83,7 +83,8 @@ ul.posts {
     line-height: 1.75em;
   }
  
-  ul.posts .date {
+  ul.posts .date,
+  ul.posts .duration {
     color: #aaa;
     font-family: Monaco, "Courier New", monospace;
     font-size: 80%;
@@ -98,7 +99,7 @@ ul.posts {
 .site {
   font-size: 110%;
   text-align: justify;
-  width: 40em;
+  width: 80%;
   margin: 3em auto 2em auto;
   line-height: 1.5em;
 }

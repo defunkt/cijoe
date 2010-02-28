@@ -83,6 +83,18 @@ Or do it the old fashion way:
     etc.
 
 
+Checkin' Status
+---------------
+
+Want to see how your build's doing without any of this fancy UI crap?
+Ping Joe for the lowdown:
+
+    curl http://localhost:4567/ping
+
+Joe will return `200 OK` if all is quiet on the Western Front. If
+Joe's busy building or your last build failed, you'll get `412
+PRECONDITION FAILED`.
+
 Multiple Projects
 -----------------
 
