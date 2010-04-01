@@ -137,6 +137,7 @@ Need more features? More notifiers? Check out one of these bad boys:
 * [Integrity](http://integrityapp.com/)
 * [CruiseControl.rb](http://cruisecontrolrb.thoughtworks.com/)
 * [BuildBot](http://buildbot.net/trac)
+* [Signal](http://www.github.com/dcrec1/signal)
 
 
 Screenshots
