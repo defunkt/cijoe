@@ -20,8 +20,16 @@ begin
     gemspec.version = CIJoe::Version.to_s
   end
 rescue LoadError
-  puts "Jeweler not available." 
+  puts "Jeweler not available."
   puts "Install it with: gem install jeweler"
+end
+
+desc "Publish a RubyGem"
+task :publish => :gem do
+  $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
+  require 'cijoe/version'
+
+  sh "gem push pkg/cijoe-#{CIJoe::Version}.gem"
 end
 
 require 'rake/testtask'
