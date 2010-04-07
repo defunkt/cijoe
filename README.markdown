@@ -56,6 +56,18 @@ Want joe to run against a branch other than `master`? No problem:
     $ git config --add cijoe.branch deploy
 
 
+Concurrent Push's - a kind of "queueing"
+----------------------------------------
+
+Joe runs just one build at the time. If you expect concurrent push's
+to your repo and want joe to build each in a kind of queue, just set:
+
+    $ git config --add cijoe.buildallfile tmp/cijoe.txt
+
+Joe will save requests while another build runs. If more than one push
+hits joe, he just picks the last after finishing the prior.
+
+
 Campfire
 -------------
 
