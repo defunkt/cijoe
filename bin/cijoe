@@ -45,8 +45,7 @@ Choice.options do
 end
 
 options = Choice.choices
-$project_path = File.expand_path(Choice.rest[0])
 
 require 'cijoe'
 
-CIJoe::Server.start(options[:host], options[:port], $project_path)
+CIJoe::Server.start(options[:host], options[:port], File.expand_path(Choice.rest[0]))

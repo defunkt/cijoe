@@ -24,8 +24,7 @@ class CIJoe
   attr_reader :user, :project, :url, :current_build, :last_build
 
   def initialize(project_path)
-    project_path = File.expand_path(project_path)
-    Dir.chdir(project_path)
+    @project_path = File.expand_path(project_path)
 
     @user, @project = git_user_and_project
     @url = "http://github.com/#{@user}/#{@project}"
@@ -49,9 +48,9 @@ class CIJoe
   # kill the child and exit
   def stop
     # another build waits
-    if Config.cijoe.buildallfile && File.exist?(Config.cijoe.buildallfile.to_s)
+    if repo_config.buildallfile && File.exist?(repo_config.buildallfile.to_s)
       # clean out on stop
-      FileUtils.rm(Config.cijoe.buildallfile.to_s)
+      FileUtils.rm(repo_config.buildallfile.to_s)
     end
 
     Process.kill(9, pid) if pid
@@ -81,9 +80,9 @@ class CIJoe
     @last_build.notify if @last_build.respond_to? :notify
 
     # another build waits
-    if Config.cijoe.buildallfile && File.exist?(Config.cijoe.buildallfile.to_s)
+    if repo_config.buildallfile && File.exist?(repo_config.buildallfile.to_s)
       # clean out before new build
-      FileUtils.rm(Config.cijoe.buildallfile.to_s)
+      FileUtils.rm(repo_config.buildallfile.to_s)
       build
     end
   end
@@ -93,11 +92,11 @@ class CIJoe
   def build
     if building?
       # only if switched on to build all incoming requests
-      if Config.cijoe.buildallfile
+      if repo_config.buildallfile
         # and there is no previous request
-        return if File.exist?(Config.cijoe.buildallfile.to_s)
+        return if File.exist?(repo_config.buildallfile.to_s)
         # we will mark awaiting builds
-        FileUtils.touch(Config.cijoe.buildallfile.to_s)
+        FileUtils.touch(repo_config.buildallfile.to_s)
       end
       # leave anyway because a current build runs
       return
@@ -129,7 +128,7 @@ class CIJoe
     build.sha = git_sha
     write_build 'current', build
 
-    open_pipe("#{runner_command} 2>&1") do |pipe, pid|
+    open_pipe("cd #{@project_path} && #{runner_command} 2>&1") do |pipe, pid|
       puts "#{Time.now.to_i}: Building #{build.short_sha}: pid=#{pid}"
 
       build.pid = pid
@@ -149,25 +148,25 @@ class CIJoe
 
   # shellin' out
   def runner_command
-    runner = Config.cijoe.runner.to_s
+    runner = repo_config.runner.to_s
     runner == '' ? "rake -s test:units" : runner
   end
 
   def git_sha
-    `git rev-parse origin/#{git_branch}`.chomp
+    `cd #{@project_path} && git rev-parse origin/#{git_branch}`.chomp
   end
 
   def git_update
-    `git fetch origin && git reset --hard origin/#{git_branch}`
+    `cd #{@project_path} && git fetch origin && git reset --hard origin/#{git_branch}`
     run_hook "after-reset"
   end
 
   def git_user_and_project
-    Config.remote.origin.url.to_s.chomp('.git').split(':')[-1].split('/')[-2, 2]
+    Config.remote(@project_path).origin.url.to_s.chomp('.git').split(':')[-1].split('/')[-2, 2]
   end
 
   def git_branch
-    branch = Config.cijoe.branch.to_s
+    branch = repo_config.branch.to_s
     branch == '' ? "master" : branch
   end
 
@@ -207,10 +206,14 @@ class CIJoe
     @current_build = nil
   end
 
+  def path_in_project(path)
+    File.join(@project_path, path)
+  end
+
   # write build info for build to file.
   def write_build(name, build)
-    filename = ".git/builds/#{name}"
-    Dir.mkdir '.git/builds' unless File.directory?('.git/builds')
+    filename = path_in_project(".git/builds/#{name}")
+    Dir.mkdir path_in_project('.git/builds') unless File.directory?(path_in_project('.git/builds'))
     if build
       build.dump filename
     elsif File.exist?(filename)
@@ -218,8 +221,12 @@ class CIJoe
     end
   end
 
+  def repo_config
+    Config.cijoe(@project_path)
+  end
+
   # load build info from file.
   def read_build(name)
-    Build.load(".git/builds/#{name}")
+    Build.load(path_in_project(".git/builds/#{name}"))
   end
 end

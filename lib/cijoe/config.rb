@@ -1,17 +1,17 @@
 class CIJoe
   class Config
     def self.method_missing(command, *args)
-      new(command)
+      new(command, args)
     end
 
-    def initialize(command, parent = nil)
+    def initialize(command, project_path = nil, parent = nil)
       @command  = command
       @parent   = parent
-      @project_path = $project_path || File.join(File.dirname(__FILE__), '../../')
+      @project_path = project_path || File.join(File.dirname(__FILE__), '../../')
     end
 
     def method_missing(command, *args)
-      Config.new(command, self)
+      Config.new(command, @project_path, self)
     end
 
     def to_s
