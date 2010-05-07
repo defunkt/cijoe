@@ -34,13 +34,6 @@ class CIJoe
       redirect request.path
     end
 
-    user, pass = Config.cijoe.user.to_s, Config.cijoe.pass.to_s
-    if user != '' && pass != ''
-      use Rack::Auth::Basic do |username, password|
-        [ username, password ] == [ user, pass ]
-      end
-      puts "Using HTTP basic auth"
-    end
 
     helpers do
       include Rack::Utils
@@ -74,6 +67,17 @@ class CIJoe
     def self.start(host, port, project_path)
       set :project_path, project_path
       CIJoe::Server.run! :host => host, :port => port
+    end
+
+    def self.project_path=(project_path)
+      user, pass = Config.cijoe(project_path).user.to_s, Config.cijoe(project_path).pass.to_s
+      if user != '' && pass != ''
+        use Rack::Auth::Basic do |username, password|
+          [ username, password ] == [ user, pass ]
+        end
+        puts "Using HTTP basic auth"
+      end
+      set :project_path, Proc.new{project_path}
     end
 
     def check_project
