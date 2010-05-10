@@ -1,7 +1,7 @@
 require 'yaml'
 
 class CIJoe
-  class Build < Struct.new(:user, :project, :started_at, :finished_at, :sha, :status, :output, :pid)
+  class Build < Struct.new(:project_path, :user, :project, :started_at, :finished_at, :sha, :status, :output, :pid)
     def initialize(*args)
       super
       self.started_at ||= Time.now
@@ -43,7 +43,7 @@ class CIJoe
 
     def commit
       return if sha.nil?
-      @commit ||= Commit.new(sha, user, project)
+      @commit ||= Commit.new(sha, user, project, project_path)
     end
 
     def dump(file)
@@ -52,9 +52,9 @@ class CIJoe
       File.open(file, 'wb') { |io| io.write(data) }
     end
 
-    def self.load(file)
+    def self.load(file, project_path)
       if File.exist?(file)
-        config = YAML.load(File.read(file))
+        config = YAML.load(File.read(file)).unshift(project_path)
         new *config
       end
     end

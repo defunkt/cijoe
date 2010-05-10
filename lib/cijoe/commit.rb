@@ -1,5 +1,5 @@
 class CIJoe
-  class Commit < Struct.new(:sha, :user, :project)
+  class Commit < Struct.new(:sha, :user, :project, :project_path)
     def url
       "http://github.com/#{user}/#{project}/commit/#{sha}"
     end
@@ -17,7 +17,7 @@ class CIJoe
     end
 
     def raw_commit
-      @raw_commit ||= `git show #{sha}`.chomp
+      @raw_commit ||= `cd #{project_path} && git show #{sha}`.chomp
     end
 
     def raw_commit_lines

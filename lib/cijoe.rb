@@ -101,7 +101,7 @@ class CIJoe
       # leave anyway because a current build runs
       return
     end
-    @current_build = Build.new(@user, @project)
+    @current_build = Build.new(@project_path, @user, @project)
     write_build 'current', @current_build
     Thread.new { build! }
   end
@@ -172,7 +172,7 @@ class CIJoe
 
   # massage our repo
   def run_hook(hook)
-    if File.exists?(file=".git/hooks/#{hook}") && File.executable?(file)
+    if File.exists?(file=path_in_project(".git/hooks/#{hook}")) && File.executable?(file)
       data =
         if @last_build && @last_build.commit
           {
@@ -184,8 +184,9 @@ class CIJoe
         else
           {}
         end
+
       data.each{ |k, v| ENV[k] = v }
-      `sh #{file}`
+      `cd #{@project_path} && sh #{file}`
     end
   end
 
@@ -227,6 +228,6 @@ class CIJoe
 
   # load build info from file.
   def read_build(name)
-    Build.load(path_in_project(".git/builds/#{name}"))
+    Build.load(path_in_project(".git/builds/#{name}"), @project_path)
   end
 end
