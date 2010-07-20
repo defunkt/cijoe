@@ -48,7 +48,7 @@ class CIJoe
   # kill the child and exit
   def stop
     # another build waits
-    if repo_config.buildallfile && File.exist?(repo_config.buildallfile.to_s)
+    if !repo_config.buildallfile.to_s.empty? && File.exist?(repo_config.buildallfile.to_s)
       # clean out on stop
       FileUtils.rm(repo_config.buildallfile.to_s)
     end
@@ -80,7 +80,7 @@ class CIJoe
     @last_build.notify if @last_build.respond_to? :notify
 
     # another build waits
-    if repo_config.buildallfile && File.exist?(repo_config.buildallfile.to_s)
+    if !repo_config.buildallfile.to_s.empty? && File.exist?(repo_config.buildallfile.to_s)
       # clean out before new build
       FileUtils.rm(repo_config.buildallfile.to_s)
       build
@@ -92,7 +92,7 @@ class CIJoe
   def build
     if building?
       # only if switched on to build all incoming requests
-      if repo_config.buildallfile
+      if !repo_config.buildallfile.to_s.empty?
         # and there is no previous request
         return if File.exist?(repo_config.buildallfile.to_s)
         # we will mark awaiting builds
