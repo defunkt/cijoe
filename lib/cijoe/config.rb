@@ -22,7 +22,7 @@ class CIJoe
       if successful_command?(process_status) || config_command_with_empty_value?(result,process_status)
         return result
       else
-        raise "Error calling git config, is a recent version of git installed? Command: #{git_command}, Error: #{result}"
+        raise "Error calling git config, is a recent version of git installed? Command: #{git_command.inspect}, Error: #{result.inspect}, Status: #{process_status.inspect}"
       end
     end
 
