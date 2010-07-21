@@ -75,16 +75,15 @@ Campfire notification is included, because it's what we use. Want Joe
 notify your Campfire? Put this in your repo's `.git/config`:
 
     [campfire]
-    	user = your@campfire.email
-    	pass = passw0rd
-    	subdomain = whatever
-    	room = Awesomeness
-    	ssl = false
+      token = your_api_token
+      subdomain = whatever
+      room = Awesomeness
+      ssl = false
 
 Or do it the old fashion way:
 
     $ cd yourrepo
-    $ git config --add campfire.user chris@ozmm.org
+    $ git config --add campfire.token 98ADFLKJSDOIU7BLAH
     $ git config --add campfire.subdomain github
     etc.
 
