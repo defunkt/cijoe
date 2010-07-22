@@ -25,10 +25,10 @@ class CIJoe
     def self.config
       campfire_config = Config.new('campfire', @project_path)
       @config ||= {
-        :subdomain => Config.campfire.subdomain.to_s,
-        :token     => Config.campfire.token.to_s,
-        :room      => Config.campfire.room.to_s,
-        :ssl       => Config.campfire.ssl.to_s.strip == 'true'
+        :subdomain => Config.campfire(@project_path).subdomain.to_s,
+        :token     => Config.campfire(@project_path).token.to_s,
+        :room      => Config.campfire(@project_path).room.to_s,
+        :ssl       => Config.campfire(@project_path).ssl.to_s.strip == 'true'
       }
     end
 

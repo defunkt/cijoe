@@ -80,6 +80,8 @@ notify your Campfire? Put this in your repo's `.git/config`:
       room = Awesomeness
       ssl = false
 
+Note: your API token may differ between subdomains!
+
 Or do it the old fashion way:
 
     $ cd yourrepo
