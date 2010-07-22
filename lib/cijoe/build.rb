@@ -41,6 +41,11 @@ class CIJoe
       output.gsub(/\e\[.+?m/, '').strip
     end
 
+    def env_output
+      out = clean_output
+      out.size > 100_000 ? out[-100_000,100_000] : out
+    end
+
     def commit
       return if sha.nil?
       @commit ||= Commit.new(sha, user, project, project_path)

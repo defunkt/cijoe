@@ -179,7 +179,7 @@ class CIJoe
             "MESSAGE" => @last_build.commit.message,
             "AUTHOR" => @last_build.commit.author,
             "SHA" => @last_build.commit.sha,
-            "OUTPUT" => @last_build.clean_output
+            "OUTPUT" => @last_build.env_output
           }
         else
           {}
