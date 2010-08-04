@@ -1,6 +1,8 @@
 class CIJoe
   module Campfire
-    def self.activate
+    def self.activate(project_path)
+      @project_path = project_path
+
       if valid_config?
         require 'tinder'
 
@@ -22,12 +24,13 @@ class CIJoe
     end
 
     def self.config
+      campfire_config = Config.new('campfire', @project_path)
       @config ||= {
-        :subdomain => Config.campfire.subdomain.to_s,
-        :user      => Config.campfire.user.to_s,
-        :pass      => Config.campfire.pass.to_s,
-        :room      => Config.campfire.room.to_s,
-        :ssl       => Config.campfire.ssl.to_s.strip == 'true'
+        :subdomain => campfire_config.subdomain.to_s,
+        :user      => campfire_config.user.to_s,
+        :pass      => campfire_config.pass.to_s,
+        :room      => campfire_config.room.to_s,
+        :ssl       => campfire_config.ssl.to_s.strip == 'true'
       }
     end
 
@@ -47,9 +50,9 @@ class CIJoe
     def room
       @room ||= begin
         config = Campfire.config
-        campfire = Tinder::Campfire.new(config[:subdomain], 
-            :username => config[:user], 
-            :password => config[:pass], 
+        campfire = Tinder::Campfire.new(config[:subdomain],
+            :username => config[:user],
+            :password => config[:pass],
             :ssl => config[:ssl] || false)
         campfire.find_room_by_name(config[:room])
       end
