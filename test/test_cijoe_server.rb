@@ -44,7 +44,7 @@ class TestCIJoeServer < Test::Unit::TestCase
   # Create a new, fake build. All we care about is status.
 
   def build status
-    CIJoe::Build.new "user", "project", Time.now, Time.now,
+    CIJoe::Build.new "path", "user", "project", Time.now, Time.now,
       "deadbeef", status, "output", 1337
   end
 end
