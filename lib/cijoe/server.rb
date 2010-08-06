@@ -16,7 +16,7 @@ class CIJoe
 
     get '/ping' do
       if joe.building? || !joe.last_build || !joe.last_build.worked?
-        halt 412, joe.last_build ? joe.last_build.sha : "building"
+        halt 412, (joe.building? || joe.last_build.nil?) ? "building" : joe.last_build.sha
       end
 
       joe.last_build.sha

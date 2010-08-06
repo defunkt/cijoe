@@ -33,6 +33,16 @@ class TestCIJoeServer < Test::Unit::TestCase
     assert_equal "building", last_response.body
   end
 
+  def test_ping_building_with_a_previous_build
+    app.joe.last_build = build :worked
+    app.joe.current_build = build :building
+    assert app.joe.building?, "buildin' a awsum project"
+
+    get "/ping"
+    assert_equal 412, last_response.status
+    assert_equal "building", last_response.body
+  end
+
   def test_ping_failed
     app.joe.last_build = build :failed
 
