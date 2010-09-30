@@ -7,7 +7,9 @@ server that'll run your tests on demand and report their pass/fail status.
 
 Because knowing is half the battle.
 
-![The Battle](http://img.skitch.com/20090805-g4a2qhttwij8n2jr9t552efn3k.png)
+[![The Battle](http://img.skitch.com/20090805-g4a2qhttwij8n2jr9t552efn3k.png)](http://nerduo.com/thebattle/)
+
+(Buy [the shirt](http://nerduo.com/thebattle/))
 
 Quickstart
 ----------
