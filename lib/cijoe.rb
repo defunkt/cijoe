@@ -194,13 +194,8 @@ class CIJoe
 
   # restore current / last build state from disk.
   def restore
-    unless @last_build
-      @last_build = read_build('last')
-    end
-
-    unless @current_build
-      @current_build = read_build('current')
-    end
+    @last_build = read_build('last')
+    @current_build = read_build('current')
 
     Process.kill(0, @current_build.pid) if @current_build && @current_build.pid
   rescue Errno::ESRCH

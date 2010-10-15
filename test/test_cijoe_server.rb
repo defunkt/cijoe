@@ -13,6 +13,11 @@ class TestCIJoeServer < Test::Unit::TestCase
 
   def setup
     @app = CIJoe::Server.new
+    # make Build#restore a no-op so we don't overwrite our current/last
+    # build attributes set from tests.
+    joe = @app.joe
+    def joe.restore
+    end
   end
 
   def test_ping
