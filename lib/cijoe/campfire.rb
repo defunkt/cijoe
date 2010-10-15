@@ -11,7 +11,7 @@ class CIJoe
         end
 
         puts "Loaded Campfire notifier"
-      else
+      elsif ENV['RACK_ENV'] != 'test'
         puts "Can't load Campfire notifier."
         puts "Please add the following to your project's .git/config:"
         puts "[campfire]"
