@@ -29,7 +29,7 @@ class CIJoe
     post '/?' do
       payload = params[:payload].to_s
       if payload.empty? || payload.include?(joe.git_branch)
-        joe.build
+        joe.build(params[:branch])
       end
       redirect request.path
     end

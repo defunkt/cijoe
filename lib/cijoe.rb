@@ -89,7 +89,7 @@ class CIJoe
 
   # run the build but make sure only one is running
   # at a time (if new one comes in we will park it)
-  def build
+  def build(branch=nil)
     if building?
       # only if switched on to build all incoming requests
       if !repo_config.buildallfile.to_s.empty?
@@ -103,7 +103,7 @@ class CIJoe
     end
     @current_build = Build.new(@project_path, @user, @project)
     write_build 'current', @current_build
-    Thread.new { build! }
+    Thread.new { build!(branch) }
   end
 
   def open_pipe(cmd)
@@ -121,7 +121,8 @@ class CIJoe
   end
 
   # update git then run the build
-  def build!
+  def build!(branch=nil)
+    @git_branch = branch
     build = @current_build
     output = ''
     git_update
@@ -166,8 +167,9 @@ class CIJoe
   end
 
   def git_branch
+    return @git_branch if @git_branch
     branch = repo_config.branch.to_s
-    branch == '' ? "master" : branch
+    @git_branch = branch == '' ? "master" : branch
   end
 
   # massage our repo
