@@ -137,7 +137,7 @@ class CIJoe
       output = pipe.read
     end
 
-    Process.waitpid(build.pid)
+    Process.waitpid(build.pid, 1)
     status = $?.exitstatus.to_i
     puts "#{Time.now.to_i}: Built #{build.short_sha}: status=#{status}"
 
