@@ -15,8 +15,7 @@ class CIJoe
         puts "Can't load Campfire notifier."
         puts "Please add the following to your project's .git/config:"
         puts "[campfire]"
-        puts "\tuser = your@campfire.email"
-        puts "\tpass = passw0rd"
+        puts "\ttoken = your_api_token"
         puts "\tsubdomain = whatever"
         puts "\troom = Awesomeness"
         puts "\tssl = false"
@@ -26,16 +25,15 @@ class CIJoe
     def self.config
       campfire_config = Config.new('campfire', @project_path)
       @config ||= {
-        :subdomain => campfire_config.subdomain.to_s,
-        :user      => campfire_config.user.to_s,
-        :pass      => campfire_config.pass.to_s,
-        :room      => campfire_config.room.to_s,
-        :ssl       => campfire_config.ssl.to_s.strip == 'true'
+        :subdomain => Config.campfire.subdomain.to_s,
+        :token     => Config.campfire.token.to_s,
+        :room      => Config.campfire.room.to_s,
+        :ssl       => Config.campfire.ssl.to_s.strip == 'true'
       }
     end
 
     def self.valid_config?
-      %w( subdomain user pass room ).all? do |key|
+      %w( subdomain token room ).all? do |key|
         !config[key.intern].empty?
       end
     end
@@ -51,8 +49,7 @@ class CIJoe
       @room ||= begin
         config = Campfire.config
         campfire = Tinder::Campfire.new(config[:subdomain],
-            :username => config[:user],
-            :password => config[:pass],
+            :token => config[:token],
             :ssl => config[:ssl] || false)
         campfire.find_room_by_name(config[:room])
       end
