@@ -38,7 +38,7 @@ class CIJoe
         response  = [200, {'Content-Type' => 'application/json'}]
         response_json = erb(:json, {}, :joe => joe)
       if params[:jsonp]
-        response << params[:jsonp] + '(' +  erb(:json, {}, :joe => joe) + ')'
+        response << params[:jsonp] + '(' +  response_json + ')'
       else 
         response << response_json
       end
