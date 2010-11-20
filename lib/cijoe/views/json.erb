@@ -1,0 +1,17 @@
+{"assignedLabels":[{}],
+"mode":"NORMAL",
+"nodeDescription":"the CI Joe node",
+"nodeName":"",
+"numExecutors":1,
+"description":null,
+"jobs": [
+<% if joe.last_build %>
+{"name":"<%= joe.project %>","url":"<%= joe.url %>, "color":"<%= joe.last_build.status == 'failed' ? 'red' : 'blue' %>"}
+<% end %>
+] ,
+"overallLoad":{},
+"primaryView":{"name":"All","url":"http://localhost:8080/"},
+"slaveAgentPort":0,
+"useCrumbs":false,
+"useSecurity":false,
+"views":[{"name":"All","url":"http://localhost:8080/"}]}

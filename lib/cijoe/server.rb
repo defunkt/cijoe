@@ -34,6 +34,17 @@ class CIJoe
       redirect request.path
     end
 
+    get '/json' do
+        response  = [200, {'Content-Type' => 'application/json'}]
+        response_json = erb(:json, {}, :joe => joe)
+      if params[:jsonp]
+        response << params[:jsonp] + '(' +  erb(:json, {}, :joe => joe) + ')'
+      else 
+        response << response_json
+      end
+      response
+    end
+
 
     helpers do
       include Rack::Utils
