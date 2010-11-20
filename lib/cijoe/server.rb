@@ -34,7 +34,7 @@ class CIJoe
       redirect request.path
     end
 
-    get '/json' do
+    get '/api/json' do
         response  = [200, {'Content-Type' => 'application/json'}]
         response_json = erb(:json, {}, :joe => joe)
       if params[:jsonp]
