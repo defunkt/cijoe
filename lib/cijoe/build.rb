@@ -52,7 +52,7 @@ class CIJoe
     end
 
     def dump(file)
-      config = [user, project, started_at, finished_at, sha, status, output, pid]
+      config = [user, project, started_at, finished_at, sha, status, output, pid, branch]
       data = YAML.dump(config)
       File.open(file, 'wb') { |io| io.write(data) }
     end
