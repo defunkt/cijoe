@@ -1,7 +1,7 @@
 require 'yaml'
 
 class CIJoe
-  class Build < Struct.new(:project_path, :user, :project, :started_at, :finished_at, :sha, :status, :output, :pid)
+  class Build < Struct.new(:project_path, :user, :project, :started_at, :finished_at, :sha, :status, :output, :pid, :branch)
     def initialize(*args)
       super
       self.started_at ||= Time.now

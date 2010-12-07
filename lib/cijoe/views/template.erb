@@ -19,7 +19,7 @@
             <li>
               <span class="date"><%= pretty_time(joe.current_build.started_at) if joe.current_build %></span> &raquo;
               <% if joe.current_build.sha %>
-                Building <a href="<%= joe.current_build.commit.url %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small>
+                Building <%= joe.current_build.branch %> at <a href="<%= joe.current_build.commit.url %>"><%= joe.current_build.short_sha %></a> <small>(pid: <%= joe.pid %>)</small>
               <% else %>
                 Build starting...
               <% end %>
@@ -32,7 +32,7 @@
             <li>
               <span class="date"><%= pretty_time(joe.last_build.finished_at) %></span> &raquo;
               <% if joe.last_build.sha %>
-                Built <a href="<%= joe.last_build.commit.url %>"><%= joe.last_build.short_sha %></a>
+                Built <%= joe.current_build.branch %> at <a href="<%= joe.last_build.commit.url %>"><%= joe.last_build.short_sha %></a>
               <% end %>
               <span class="<%= joe.last_build.status %>">(<%= joe.last_build.status %>)</span>
               <% if joe.last_build.duration %>
