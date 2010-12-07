@@ -124,10 +124,10 @@ class CIJoe
   def build!(branch=nil)
     @git_branch = branch
     build = @current_build
-    @current_build.branch = git_branch
     output = ''
     git_update
     build.sha = git_sha
+    build.branch = git_branch
     write_build 'current', build
 
     open_pipe("cd #{@project_path} && #{runner_command} 2>&1") do |pipe, pid|
