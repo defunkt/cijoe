@@ -27,10 +27,16 @@ class CIJoe
     end
 
     post '/?' do
-      payload = params[:payload].to_s
-      if payload.empty? || payload.include?(joe.git_branch)
+      payload = YAML.load(params[:payload].to_s) || {}
+      pushed_branch = payload[:ref].to_s.split('/').last
+
+      # Only build if we were given an explicit branch via `?branch=blah`,
+      # no payload exists (we're probably testing), or the payload exists and
+      # the "ref" property matches our specified build branch.
+      if params[:branch] || payload.empty? || pushed_branch == joe.git_branch
         joe.build(params[:branch])
       end
+
       redirect request.path
     end
 
