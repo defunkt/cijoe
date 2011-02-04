@@ -1,0 +1,8 @@
+{ "jobs": [
+<% if joe.last_build %>
+{"name":"<%= joe.project %>",
+ "url":"<%= joe.url %>",
+ "color":"<%= joe.last_build.status.to_s == "failed" ? 'red' : 'blue' %>"
+ }
+<% end %>
+]}
