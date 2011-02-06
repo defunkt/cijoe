@@ -86,6 +86,11 @@ class CIJoe
       CIJoe::Server.run! :host => host, :port => port
     end
 
+    def self.rack_start(project_path)
+      set :project_path, project_path
+      self.new
+    end
+
     def self.project_path=(project_path)
       user, pass = Config.cijoe(project_path).user.to_s, Config.cijoe(project_path).pass.to_s
       if user != '' && pass != ''
