@@ -28,7 +28,7 @@ class CIJoe
 
     post '/?' do
       payload = YAML.load(params[:payload].to_s) || {}
-      pushed_branch = payload[:ref].to_s.split('/').last
+      pushed_branch = payload['ref'].to_s.split('/').last
 
       # Only build if we were given an explicit branch via `?branch=blah`,
       # no payload exists (we're probably testing), or the payload exists and
@@ -45,7 +45,7 @@ class CIJoe
         response_json = erb(:json, {}, :joe => joe)
       if params[:jsonp]
         response << params[:jsonp] + '(' +  response_json + ')'
-      else 
+      else
         response << response_json
       end
       response
