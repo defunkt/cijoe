@@ -139,6 +139,7 @@ class CIJoe
 
     Process.waitpid(build.pid, 1)
     status = $?.exitstatus.to_i
+    @current_build = build
     puts "#{Time.now.to_i}: Built #{build.short_sha}: status=#{status}"
 
     status == 0 ? build_worked(output) : build_failed('', output)
