@@ -127,10 +127,11 @@ class CIJoe
     output = ''
     git_update
     build.sha = git_sha
+    build.branch = git_branch
     write_build 'current', build
 
     open_pipe("cd #{@project_path} && #{runner_command} 2>&1") do |pipe, pid|
-      puts "#{Time.now.to_i}: Building #{build.short_sha}: pid=#{pid}"
+      puts "#{Time.now.to_i}: Building #{build.branch} at #{build.short_sha}: pid=#{pid}"
 
       build.pid = pid
       write_build 'current', build
