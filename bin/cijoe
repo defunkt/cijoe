@@ -47,4 +47,4 @@ end
 
 options = Choice.choices
 
-CIJoe::Server.start(options[:host], options[:port], File.expand_path(Choice.rest[0]))
+CIJoe::Server.start(options[:host], options[:port], File.expand_path(Choice.rest[0].to_s))
