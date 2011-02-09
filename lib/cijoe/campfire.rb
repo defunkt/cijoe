@@ -56,9 +56,8 @@ class CIJoe
     end
 
     def short_message
-      "Build #{short_sha} of #{project} " +
-        (worked? ? "was successful" : "failed") +
-        " (#{duration.to_i}s)"
+      "#{branch} at #{short_sha} of #{project} " +
+        (worked? ? "passed" : "failed") + " (#{duration.to_i}s)"
     end
 
     def full_message
