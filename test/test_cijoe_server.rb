@@ -13,10 +13,16 @@ class TestCIJoeServer < Test::Unit::TestCase
 
   def setup
     @app = CIJoe::Server.new
+    joe = @app.joe
+    
     # make Build#restore a no-op so we don't overwrite our current/last
     # build attributes set from tests.
-    joe = @app.joe
     def joe.restore
+    end
+    
+    # make CIJoe#build! and CIJoe#git_update a no-op so we don't overwrite our local changes
+    # or local commits nor should we run tests.
+    def joe.build!
     end
   end
 
@@ -64,6 +70,30 @@ class TestCIJoeServer < Test::Unit::TestCase
     assert_equal current_build, app.joe.current_build
   end
 
+  def test_post_with_json_works
+    post '/', :payload => File.read("#{Dir.pwd}/test/fixtures/payload.json")
+    assert app.joe.building?
+    assert_equal 302, last_response.status
+  end
+  
+  def test_post_does_not_build_on_branch_mismatch
+    post "/", :payload => {"ref" => "refs/heads/dont_build"}.to_json
+    assert !app.joe.building?
+    assert_equal 302, last_response.status
+  end
+
+  def test_post_does_build_on_branch_match
+    post "/", :payload => {"ref" => "refs/heads/master"}.to_json
+    assert app.joe.building?
+    assert_equal 302, last_response.status
+  end
+  
+  def test_post_does_build_when_build_button_is_used
+    post "/", :rebuild => true
+    assert app.joe.building?
+    assert_equal 302, last_response.status
+  end
+
   def test_jsonp_should_return_plain_json_without_param
     app.joe.last_build = build :failed
     get "/api/json"
@@ -74,7 +104,6 @@ class TestCIJoeServer < Test::Unit::TestCase
   def test_jsonp_should_return_jsonp_with_param
     app.joe.last_build = build :failed
     get "/api/json?jsonp=fooberz"
-    puts last_response.inspect
     assert_equal 200, last_response.status
     assert_equal 'application/json', last_response.content_type
     assert_match /^fooberz\(/, last_response.body 

@@ -1,0 +1,52 @@
+{
+    "after": "416cb2f7105e7f989bc223d1a975b93a6491b276",
+    "before": "0ae4da1eea2d191b33ebfbd5db48e3c1f91953ad",
+    "commits": [
+        {
+            "added": [
+                
+            ],
+            "author": {
+                "email": "joshua.owens@gmail.com",
+                "name": "Josh Owens",
+                "username": "queso" 
+            },
+            "id": "09293a1703b3bdb36aba70d38abd5e44396c50a5",
+            "message": "Update README",
+            "modified": [
+                "README.textile" 
+            ],
+            "removed": [
+                
+            ],
+            "timestamp": "2011-02-07T15:27:35-08:00",
+            "url": "https:\/\/github.com\/fourbeansoup\/broth\/commit\/09293a1703b3bdb36aba70d38abd5e44396c50a5" 
+        } 
+    ],
+    "compare": "https:\/\/github.com\/fourbeansoup\/broth\/compare\/0ae4da1...416cb2f",
+    "forced": false,
+    "ref": "refs\/heads\/master",
+    "repository": {
+        "created_at": "2009\/12\/05 10:44:57 -0800",
+        "description": "FourBeanSoup's Broth Application, a tasty starting point for every app",
+        "fork": true,
+        "forks": 4,
+        "has_downloads": true,
+        "has_issues": true,
+        "has_wiki": true,
+        "homepage": "",
+        "language": "JavaScript",
+        "name": "broth",
+        "open_issues": 2,
+        "organization": "fourbeansoup",
+        "owner": {
+            "email": "josh+scm@fourbeansoup.com",
+            "name": "fourbeansoup" 
+        },
+        "private": false,
+        "pushed_at": "2011\/02\/07 17:17:00 -0800",
+        "size": 604,
+        "url": "https:\/\/github.com\/fourbeansoup\/broth",
+        "watchers": 10 
+    }
+}

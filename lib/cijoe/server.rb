@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'erb'
+require 'json'
 
 class CIJoe
   class Server < Sinatra::Base
@@ -27,15 +28,15 @@ class CIJoe
     end
 
     post '/?' do
-      payload = params[:payload].to_s
-      if payload =~ /"ref":"(.+?)"/
-        pushed_branch = $1.split('/').last
+      unless params[:rebuild]
+        payload = JSON.parse(params[:payload])
+        pushed_branch = payload["ref"].split('/').last
       end
-
-      # Only build if we were given an explicit branch via `?branch=blah`,
-      # no payload exists (we're probably testing), or the payload exists and
-      # the "ref" property matches our specified build branch.
-      if params[:branch] || payload.empty? || pushed_branch == joe.git_branch
+      
+      # Only build if we were given an explicit branch via `?branch=blah`
+      # or the payload exists and the "ref" property matches our 
+      # specified build branch.
+      if params[:branch] || params[:rebuild] || pushed_branch == joe.git_branch
         joe.build(params[:branch])
       end
 
