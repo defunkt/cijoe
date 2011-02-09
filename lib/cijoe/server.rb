@@ -27,8 +27,10 @@ class CIJoe
     end
 
     post '/?' do
-      payload = YAML.load(params[:payload].to_s.gsub("\n",' ')) || {}
-      pushed_branch = payload['ref'].to_s.split('/').last
+      payload = params[:payload].to_s
+      if payload =~ /"ref":"(.+?)"/
+        pushed_branch = $1.split('/').last
+      end
 
       # Only build if we were given an explicit branch via `?branch=blah`,
       # no payload exists (we're probably testing), or the payload exists and
