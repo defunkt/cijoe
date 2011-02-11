@@ -2,7 +2,15 @@
 <% if joe.last_build %>
 {"name":"<%= joe.project %>",
  "url":"<%= joe.url %>",
- "color":"<%= joe.last_build.status.to_s == "failed" ? 'red' : 'blue' %>"
+ "color":"<%= joe.last_build.status.to_s == "failed" ? 'red' : 'blue' %>",
+ "status":"<%= joe.last_build.status %>",
+ "started_at":"<%= pretty_time(joe.last_build.started_at) %>",
+ "finished_at":"<%= pretty_time(joe.last_build.finished_at) %>",
+ "duration":"<%= joe.last_build.duration if joe.last_build.duration %>",
+ "sha":"<%= joe.last_build.sha %>",
+ "short_sha":"<%= joe.last_build.short_sha %>",
+ "commit_url":"<%= joe.last_build.commit.url if joe.last_build.commit %>",
+ "branch":"<%= joe.last_build.branch %>"
  }
 <% end %>
 ]}
