@@ -77,8 +77,7 @@ Campfire notification is included, because it's what we use. Want Joe
 notify your Campfire? Put this in your repo's `.git/config`:
 
     [campfire]
-    	user = your@campfire.email
-    	pass = passw0rd
+    	token = abcd1234
     	subdomain = whatever
     	room = Awesomeness
     	ssl = false
@@ -86,7 +85,7 @@ notify your Campfire? Put this in your repo's `.git/config`:
 Or do it the old fashion way:
 
     $ cd yourrepo
-    $ git config --add campfire.user chris@ozmm.org
+    $ git config --add campfire.token abcd1234
     $ git config --add campfire.subdomain github
     etc.
 
