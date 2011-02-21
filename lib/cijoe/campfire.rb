@@ -1,6 +1,6 @@
 class CIJoe
   class Campfire
-    attr_reader :project_path
+    attr_reader :project_path, :build
     
     def initialize(project_path)
       @project_path = project_path
@@ -34,10 +34,11 @@ class CIJoe
       end
     end
 
-    def notify
+    def notify(build)
       begin
-        room.speak "#{short_message}. #{commit.url}"
-        room.paste full_message if failed?
+        @build = build
+        room.speak "#{short_message}. #{build.commit.url}"
+        room.paste full_message if build.failed?
         room.leave
       rescue
         puts "Please check your campfire config for #{project_path}."
@@ -56,17 +57,17 @@ class CIJoe
     end
 
     def short_message
-      "#{branch} at #{short_sha} of #{project} " +
-        (worked? ? "passed" : "failed") + " (#{duration.to_i}s)"
+      "#{build.branch} at #{build.short_sha} of #{build.project} " +
+        (build.worked? ? "passed" : "failed") + " (#{build.duration.to_i}s)"
     end
 
     def full_message
       <<-EOM
-Commit Message: #{commit.message}
-Commit Date: #{commit.committed_at}
-Commit Author: #{commit.author}
+Commit Message: #{build.commit.message}
+Commit Date: #{build.commit.committed_at}
+Commit Author: #{build.commit.author}
 
-#{clean_output}
+#{build.clean_output}
 EOM
     end
   end

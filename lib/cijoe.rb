@@ -79,7 +79,7 @@ class CIJoe
     @current_build = nil
     write_build 'current', @current_build
     write_build 'last', @last_build
-    @campfire.notify if @campfire.valid?
+    @campfire.notify(@last_build) if @campfire.valid?
 
     # another build waits
     if !repo_config.buildallfile.to_s.empty? && File.exist?(repo_config.buildallfile.to_s)
