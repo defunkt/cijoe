@@ -147,11 +147,18 @@ Other CI Servers
 
 Need more features? More notifiers? Check out one of these bad boys:
 
+* [Jenkins](http://jenkins-ci.org/)
 * [Cerberus](http://cerberus.rubyforge.org/)
 * [Integrity](http://integrityapp.com/)
 * [CruiseControl.rb](http://cruisecontrolrb.thoughtworks.com/)
 * [BuildBot](http://buildbot.net/trac)
 * [Signal](http://www.github.com/dcrec1/signal)
+
+
+Does GitHub use cijoe?
+---------------------------------
+
+No. We use [Jenkins](http://jenkins-ci.org/).
 
 
 Screenshots
@@ -160,12 +167,6 @@ Screenshots
 ![Building](http://img.skitch.com/20090806-ryw34ksi5ixnrdwxcptqy28iy7.png)
 
 ![Built](http://img.skitch.com/20090806-f7j3r65yecaq13hdcxqwtc5krd.)
-
-
-Does GitHub use cijoe?
----------------------------------
-
-No. We use [Jenkins](http://jenkins-ci.org/).
 
 
 Questions? Concerns?
