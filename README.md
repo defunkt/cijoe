@@ -162,6 +162,12 @@ Screenshots
 ![Built](http://img.skitch.com/20090806-f7j3r65yecaq13hdcxqwtc5krd.)
 
 
+Does GitHub use cijoe?
+---------------------------------
+
+No. We use [Jenkins](http://jenkins-ci.org/).
+
+
 Questions? Concerns?
 ---------------------------------
 
