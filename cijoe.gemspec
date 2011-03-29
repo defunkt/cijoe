@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.summary           = "cijoe builds your builds."
   s.homepage          = "http://github.com/defunkt/cijoe"
   s.email             = "chris@ozmm.org"
-  s.authors           = [ "Chris Wanstrath" ]
+  s.authors           = [ "Chris Wanstrath", "Josh Owens" ]
   s.has_rdoc          = false
 
   s.files             = %w( README.md Rakefile LICENSE )
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency     'choice'
   s.add_runtime_dependency     'sinatra'
   s.add_runtime_dependency     'json'
+  s.add_runtime_dependency     'tinder', '>= 1.4.0'
   s.add_development_dependency 'rack-test'
 
    s.description       = <<desc
