@@ -3,9 +3,12 @@ class CIJoe
   # builds.
   class Queue
     # enabled - determines whether builds should be queued or not.
-    def initialize(enabled)
+    def initialize(enabled, verbose=false)
       @enabled = enabled
+      @verbose = verbose
       @queue = []
+
+      log("Build queueing enabled") if enabled
     end
 
     # Public: Appends a branch to be built, unless it already exists
@@ -17,12 +20,17 @@ class CIJoe
     # Returns nothing
     def append_unless_already_exists(branch)
       return unless enabled?
-      @queue << branch unless @queue.include? branch
+      unless @queue.include? branch
+        @queue << branch
+        log "#{Time.now.to_i}: Queueing #{branch}"
+      end
     end
 
     # Returns a String of the next branch to build
     def next_branch_to_build
-      @queue.shift
+      branch = @queue.shift
+      log "#{Time.now.to_i}: De-queueing #{branch}"
+      branch
     end
 
     # Returns true if there are requested builds waiting and false
@@ -36,6 +44,10 @@ class CIJoe
     end
 
   protected
+    def log(msg)
+      puts msg if @verbose
+    end
+
     def enabled?
       @enabled
     end

@@ -32,7 +32,7 @@ class CIJoe
 
     @last_build = nil
     @current_build = nil
-    @queue = Queue.new(!repo_config.buildqueue.empty?)
+    @queue = Queue.new(!repo_config.buildqueue.to_s.empty?, true)
 
     trap("INT") { stop }
   end
