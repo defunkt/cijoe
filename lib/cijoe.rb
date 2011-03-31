@@ -19,6 +19,7 @@ require 'cijoe/commit'
 require 'cijoe/build'
 require 'cijoe/campfire'
 require 'cijoe/server'
+require 'cijoe/queue'
 
 class CIJoe
   attr_reader :user, :project, :url, :current_build, :last_build
@@ -31,6 +32,7 @@ class CIJoe
 
     @last_build = nil
     @current_build = nil
+    @queue = Queue.new(!repo_config.buildqueue.empty?)
 
     trap("INT") { stop }
   end
@@ -47,12 +49,6 @@ class CIJoe
 
   # kill the child and exit
   def stop
-    # another build waits
-    if !repo_config.buildallfile.to_s.empty? && File.exist?(repo_config.buildallfile.to_s)
-      # clean out on stop
-      FileUtils.rm(repo_config.buildallfile.to_s)
-    end
-
     Process.kill(9, pid) if pid
     exit!
   end
@@ -79,25 +75,14 @@ class CIJoe
     write_build 'last', @last_build
     @last_build.notify if @last_build.respond_to? :notify
 
-    # another build waits
-    if !repo_config.buildallfile.to_s.empty? && File.exist?(repo_config.buildallfile.to_s)
-      # clean out before new build
-      FileUtils.rm(repo_config.buildallfile.to_s)
-      build
-    end
+    build(@queue.next_branch_to_build) if @queue.waiting?
   end
 
   # run the build but make sure only one is running
   # at a time (if new one comes in we will park it)
   def build(branch=nil)
     if building?
-      # only if switched on to build all incoming requests
-      if !repo_config.buildallfile.to_s.empty?
-        # and there is no previous request
-        return if File.exist?(repo_config.buildallfile.to_s)
-        # we will mark awaiting builds
-        FileUtils.touch(repo_config.buildallfile.to_s)
-      end
+      @queue.append_unless_already_exists(branch)
       # leave anyway because a current build runs
       return
     end
