@@ -74,11 +74,9 @@ class TestCIJoeServer < Test::Unit::TestCase
   def test_jsonp_should_return_jsonp_with_param
     app.joe.last_build = build :failed
     get "/api/json?jsonp=fooberz"
-    puts last_response.inspect
     assert_equal 200, last_response.status
     assert_equal 'application/json', last_response.content_type
-    assert_match /^fooberz\(/, last_response.body 
-
+    assert_match /^fooberz\(/, last_response.body
   end
 
   def test_should_not_barf_when_no_build
