@@ -49,6 +49,9 @@ put whatever you want in there.
 Tip: your repo's `HEAD` will point to the commit used to run the
 build. Pull any metadata you want out of that scro.
 
+** WARNING ** Do not run this against a git repo that has unpushed
+  commits, as this will do a hard reset against the github remote and
+wipe out unpushed changes.
 
 Other Branches
 ----------------------
