@@ -113,8 +113,7 @@ class TestCIJoeServer < Test::Unit::TestCase
     get "/api/json?jsonp=fooberz"
     assert_equal 200, last_response.status
     assert_equal 'application/json', last_response.content_type
-    assert_match /^fooberz\(/, last_response.body 
-
+    assert_match /^fooberz\(/, last_response.body
   end
 
   def test_should_not_barf_when_no_build
