@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'test/unit'
+require 'mocha'
 
 ENV['RACK_ENV'] = 'test'
 

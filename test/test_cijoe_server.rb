@@ -82,6 +82,13 @@ class TestCIJoeServer < Test::Unit::TestCase
     assert_equal 302, last_response.status
   end
 
+  def test_post_builds_specific_branch 
+    app.joe.expects(:build!).with("branchname")
+    post "/?branch=branchname", :payload => {"ref" => "refs/heads/master"}.to_json
+    assert app.joe.building?
+    assert_equal 302, last_response.status
+  end
+
   def test_post_does_build_on_branch_match
     post "/", :payload => {"ref" => "refs/heads/master"}.to_json
     assert app.joe.building?
